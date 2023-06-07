@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
+  // State containing user login details
   const [authState, setAuthState] = useState({
     username: "",
     id: 0,
@@ -18,6 +19,7 @@ function App() {
 
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
+    // Check if user has a valid token
     axios
       .get("http://localhost:3001/auth/auth", {
         headers: {
@@ -26,8 +28,10 @@ function App() {
       })
       .then((response) => {
       if (response.data.error) {
+        // Set login status to be false
         setAuthState({...authState, status: false});
       } else {
+        // Set login status to be true and set other user details
         setAuthState({
           username: response.data.username,
           id: response.data.id,
@@ -37,8 +41,11 @@ function App() {
     })
   }, []);
 
+  // Function called when logging out
   const logout = () => {
+    // Remove accessToken
     localStorage.removeItem("accessToken");
+    // Set login status to be false as well as clear username and id
     setAuthState({
       username: "",
       id: 0,

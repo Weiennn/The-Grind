@@ -30,9 +30,11 @@ function Post() {
     axios.post("http://localhost:3001/comments", {commentBody: newComment, PostId: id},
     {
       headers: {
+        // Obtain token from local storage
         accessToken: localStorage.getItem("accessToken"),
       },
     }).then((response) => {
+      // Deal with any error
       if (response.data.error) {
         alert(response.data.error);
       } else {
@@ -65,10 +67,11 @@ function Post() {
         </div>
         <div className="listOfComments">
           {comments.map((comment, key) => {
-            return <div key={key} className="comment">
+            return ( <div key={key} className="comment">
               {comment.commentBody}
               <label> Username: {comment.username} </label>
             </div>
+            );
           })}
         </div>
       </div>  

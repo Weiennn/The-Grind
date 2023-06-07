@@ -13,11 +13,11 @@ router.get('/:postId', async (req, res) => {
     res.json(comments);
 });
 
-// Post a comment to a specific post
+// Post a comment to a specific post if the user is logged in
 router.post("/", validateToken, async (req, res) => {
     // Create a variable set to the comment data
     const comment = req.body;
-    // Create a variable set to the username
+    // Create a variable set to the username obtained from AuthMiddleware.js
     const username = req.user.username;
     // Set the comment's username
     comment.username = username;

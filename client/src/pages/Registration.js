@@ -4,18 +4,23 @@ import * as Yup from "yup";
 import axios from "axios";
 
 function Registration() {
+  // initial values for the form
     const initialValues = {
         username: "",
         password: "",
     };
 
+    // Requirements for form input
     const validationSchema = Yup.object().shape({
       username: Yup.string().min(3).max(15).required(),
       password: Yup.string().min(4).max(20).required(),
     })
 
+    // What happens when the submit button is clicked
   const onSubmit = (data) => {
+    // Post data to the route for users
     axios.post("http://localhost:3001/auth", data).then(() => {
+      // For testing, will change to redirecting later
         console.log(data);
     });
   };
