@@ -8,20 +8,25 @@ function NewPost() {
 
   let navigate = useNavigate();
 
+  // initial values for the form
   const initialValues = {
         title: "",
         postText: "",
         username: "",
     };
 
+    // Requirements for form input
     const validationSchema = Yup.object().shape({
-      title: Yup.string().required(),
-      postText: Yup.string().required(),
-      username: Yup.string().min(3).max(15).required()
+      title: Yup.string().required("A title is required"),
+      postText: Yup.string().required("A text body is required"),
+      username: Yup.string().min(3).max(15).required("A username is required")
     })
 
+  // What happens when the submit button is clicked
   const onSubmit = (data) => {
+    // Post data to the route for posts
     axios.post("http://localhost:3001/posts", data).then((response) => {
+        // Navigate to another page after posting
         navigate("/");
       });
     };
@@ -33,21 +38,21 @@ function NewPost() {
             <label>Title: </label>
             <ErrorMessage name="title" component="span" />
             <Field
-              id="inputNewPost"
+              id="inputCreatePost"
               name="title"
               placeholder="Title..."
             />
             <label>Post: </label>
             <ErrorMessage name="postText" component="span" />
             <Field
-              id="inputNewPost"
+              id="inputCreatePost"
               name="postText"
               placeholder="Post..."
             />
             <label>Username: </label>
             <ErrorMessage name="username" component="span" />
             <Field
-              id="inputNewPost"
+              id="inputCreatePost"
               name="username"
               placeholder="John cena..."
             />

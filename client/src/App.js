@@ -16,6 +16,7 @@ function App() {
     status: false,
   });
 
+  // Runs when the page is being refreshed or loaded
   useEffect(() => {
     axios
       .get("http://localhost:3001/auth/auth", {
@@ -71,8 +72,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
           </Routes>
         </Router>
-      </AuthContext.Provider>
-      
+      </AuthContext.Provider> 
     </div>
   );
 }
