@@ -11,7 +11,7 @@ const validateToken = (req, res, next) => {
     }
 
     try {
-        // Verify is token is valid using the same secret string used to create it
+        // Verify if the token is valid using the same secret string used to create it
         const validToken = verify(accessToken, "importantsecret");
         // To store access token information in all requests
         req.user = validToken;

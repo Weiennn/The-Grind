@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../helper/AuthContext";
 
 function Registration() {
+  // Obtaining state containing user login details
+  const {setAuthState} = useContext(AuthContext);
+  
   // initial values for the form
     const initialValues = {
         username: "",
@@ -16,12 +21,25 @@ function Registration() {
       password: Yup.string().min(4).max(20).required(),
     })
 
+    let navigate = useNavigate();
+
     // What happens when the submit button is clicked
   const onSubmit = (data) => {
     // Post data to the route for users
     axios.post("http://localhost:3001/auth", data).then(() => {
-      // For testing, will change to redirecting later
-        console.log(data);
+      // Send data to the route for user login
+      axios.post("http://localhost:3001/auth/login", data).then((response) => {
+        if (response.data.error) {
+            alert(response.data.error);
+        } else {
+            // Set accessToken inside localStorage
+            localStorage.setItem("accessToken", response.data.token);
+            // When logging in, set status to be true to signify being logged in and obtain the username as well as id
+            setAuthState({ username: response.data.username, id: response.data.id, status: true });
+            // Change to home page
+            navigate("/");
+        }
+      })
     });
   };
 

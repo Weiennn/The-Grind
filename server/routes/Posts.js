@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
-// Get Posts model from the models folder
-const { Posts } = require("../models")
+const { Posts } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddleware");
 
 // Get all posts
 router.get("/", async (req, res) => {
@@ -23,9 +22,13 @@ router.get('/byId/:id', async (req, res) => {
 })
 
 // Create a new post
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
     // Create a variable set to the post data
-    const post = req.body;   
+    const post = req.body;
+    // Create a variable set to the username obtained from AuthMiddleware.js
+    const username = req.user.username;
+    // Set the post's username
+    post.username = username; 
     // Add data to the database
     await Posts.create(post);
     // Return response in json format
