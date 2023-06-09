@@ -101,7 +101,7 @@ body {
 }
 
 span {
-  color: red;
+  color: black
 }
 
 /* NAVBAR */
@@ -224,8 +224,23 @@ button {
   color: white;
 }
 
+/* can remove */
 .loginContainer input {
-  border: 2px solid dodgerblue;
+  border: 2px dodgerblue;
+}
+
+/* TIMER */
+
+.hours, .minutes, .seconds, .milliseconds {
+  color: black;
+  font-size: 30px;
+  padding-left: 5px;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  border: 1px solid lightgray;
 }
 
 /* TIMER */

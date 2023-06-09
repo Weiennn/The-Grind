@@ -4,22 +4,52 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../helper/AuthContext";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit">The Grind</Link> {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const defaultTheme = createTheme();
 
 function Registration() {
   // Obtaining state containing user login details
   const {setAuthState} = useContext(AuthContext);
   
   // initial values for the form
-    const initialValues = {
-        username: "",
-        password: "",
-    };
+  const initialValues = {
+    username: "",
+    password: "",
+  };
 
-    // Requirements for form input
-    const validationSchema = Yup.object().shape({
-      username: Yup.string().min(3).max(15).required(),
-      password: Yup.string().min(4).max(20).required(),
-    })
+  // Requirements for form input
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().min(3).max(15).required(),
+    password: Yup.string().min(4).max(20).required(),
+  });
 
     let navigate = useNavigate();
 
@@ -43,10 +73,99 @@ function Registration() {
     });
   };
 
+  //TODO change icon
   return (
-    <div>
-      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-        <Form class="formContainer">
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+            Sign up
+          </Typography>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            <Form noValidate sx={{ mt: 2 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <ErrorMessage name="username" component="span" />
+                  <Field name="username">
+                    {({ field }) => (
+                      <TextField
+                        {...field}
+                        required
+                        fullWidth
+                        id="inputNewPost"
+                        label="Username"
+                        autoComplete="username"
+                      />
+                    )}
+                  </Field>
+                </Grid>
+                <Grid item xs={12}>
+                  <ErrorMessage name="password" component="span" />
+                  <Field name="password">
+                    {({ field }) => (
+                      <TextField
+                        {...field}
+                        required
+                        fullWidth
+                        type="password"
+                        id="inputNewPost"
+                        label="Password"
+                        autoComplete="new-password"
+                      />
+                    )}
+                  </Field>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox value="allowExtraEmails" color="primary" />
+                    }
+                    label="I would like to receive information about the goods and services which may be provided by
+                    the Grind via email."
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Up
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </Form>
+          </Formik>
+        </Box>
+
+        {/*
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
+          <Form class="formContainer">
             <label>Username: </label>
             <ErrorMessage name="username" component="span" />
             <Field
@@ -63,10 +182,13 @@ function Registration() {
               placeholder="Password..."
             />
             <button type="submit"> Register </button>
-        </Form>
-      </Formik>
-    </div>
-  )
+          </Form>
+        </Formik>
+                  */}
+      </Container>
+      <Copyright sx={{ mt: 5 }} />
+    </ThemeProvider>
+  );
 }
 
-export default Registration
+export default Registration;
