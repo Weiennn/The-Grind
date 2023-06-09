@@ -101,7 +101,7 @@ body {
 }
 
 span {
-  color: red;
+  color: black
 }
 
 /* NAVBAR */
@@ -224,6 +224,7 @@ button {
   color: white;
 }
 
+/* can remove */
 .loginContainer input {
-  border: 2px solid dodgerblue;
+  border: 2px dodgerblue;
 }
