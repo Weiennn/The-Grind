@@ -72,6 +72,7 @@ function App() {
             ) : (
               <>
                 <Link to="assignments">Assignments</Link>
+                <Link to="newAssignment">Create Assignment</Link>
                 <button onClick={logout}>Logout</button>
               </>
             )}
@@ -86,6 +87,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/timer" element={<Timer />} />
             <Route path="/assignments" element={<Assignments />} />
+            <Route path="/newAssignment" element={<NewAssignment />} />
           </Routes>
         </Router>
       </AuthContext.Provider> 
