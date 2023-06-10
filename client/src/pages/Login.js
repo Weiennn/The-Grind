@@ -86,7 +86,7 @@ function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
+          <Box onSubmit={login} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -97,6 +97,10 @@ function Login() {
               autoComplete="Username"
               autoFocus
               variant="outlined"
+              type="text"
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
             />
             <TextField
               margin="normal"
@@ -107,6 +111,9 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -116,6 +123,7 @@ function Login() {
               type="submit"
               fullWidth
               variant="contained"
+              onClick={login}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
