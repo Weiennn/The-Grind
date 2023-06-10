@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Timer from "./pages/Timer"
 import Assignments from "./pages/Assignments"
+import NewAssignment from "./pages/NewAssignment"
 import { AuthContext } from "./helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
