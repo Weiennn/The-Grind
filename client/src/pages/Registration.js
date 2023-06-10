@@ -84,7 +84,7 @@ function Registration() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 12,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -190,7 +190,7 @@ function Registration() {
         </Formik>
                   */}
       </Container>
-      <Copyright sx={{ mt: 5 }} />
+      <Copyright sx={{ mt: 14 }} />
     </ThemeProvider>
   );
 }

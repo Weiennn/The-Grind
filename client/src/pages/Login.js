@@ -70,11 +70,15 @@ function Login() {
     //TODO can be moved to root once settled on theme
     //TODO to change Logo
     <ThemeProvider theme={defaultTheme}>
-      <Container className="loginContainer" component="main" maxWidth="xs">
+      <Container
+        className="loginContainer"
+        component="main"
+        maxWidth="xs"
+        style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}
+      >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -96,7 +100,6 @@ function Login() {
               name="Username"
               autoComplete="Username"
               autoFocus
-              variant="outlined"
               type="text"
               onChange={(event) => {
                 setUsername(event.target.value);
@@ -142,7 +145,7 @@ function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 13 }} />
         {/*
         <div>
           <label>Username:</label>

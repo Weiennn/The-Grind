@@ -6,6 +6,7 @@ import Post from "./pages/Post";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Timer from "./pages/Timer"
+import Assignments from "./pages/Assignments"
 import { AuthContext } from "./helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -59,16 +60,19 @@ function App() {
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <div className="navbar">
-            <Link to="newPost" >Create new post</Link>
-            <Link to="/" >Forum</Link>
-            <Link to="timer" >Timer</Link>
+            <Link to="newPost">Create new post</Link>
+            <Link to="/">Forum</Link>
+            <Link to="timer">Timer</Link>
             {!authState.status ? (
               <>
-                <Link to="login" >Login</Link>
-                <Link to="registration" >Registration</Link>
+                <Link to="login">Login</Link>
+                <Link to="registration">Registration</Link>
               </>
             ) : (
-              <button onClick={logout}>Logout</button>
+              <>
+                <Link to="assignments">Assignments</Link>
+                <button onClick={logout}>Logout</button>
+              </>
             )}
 
             <h1>{authState.username}</h1>
@@ -80,6 +84,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/timer" element={<Timer />} />
+            <Route path="/assignments" element={<Assignments />} />
           </Routes>
         </Router>
       </AuthContext.Provider> 
