@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
 
-    // Create association between Users and Posts by adding postId to the Comments table
-    /*Users.associate = (models) => {
-        // Each user might have multiple posts
-        Users.hasMany(models.Posts, {
-            // When deleting a user, every post associated to it gets deleted
+    // Create association between Users and Assignments by adding userId to the Assignments table
+    Users.associate = (models) => {
+        // Each user might have multiple assignments
+        Users.hasMany(models.Assignments, {
+            // When deleting a user, every assignment associated to it gets deleted
             onDelete: 'cascade',
         });
-    };*/
+    };
 
     return Users;
 }

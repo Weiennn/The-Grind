@@ -20,7 +20,7 @@ app.use("/comments", commentsRouter);
 const usersRouter = require('./routes/Users');
 app.use("/auth", usersRouter);
 const assignmentsRouter = require('./routes/Assignments');
-app.use("/assignments/", usersRouter);
+app.use("/assignments/", assignmentsRouter);
 
 // Go over all tables in models folder
 db.sequelize.sync().then(() => {

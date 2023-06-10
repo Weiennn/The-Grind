@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const moment = require("moment");
 
 // Export anonymous function so that can be accesed in other files
 module.exports = (sequelize, DataTypes) => {
@@ -13,8 +14,16 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         deadline: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
+            get() {
+                return moment(this.getDataValue('deadline')).format('DD.MM.YYYY');
+            }
+        },
+        recurring: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         }
     })
 
