@@ -8,6 +8,7 @@ import Registration from "./pages/Registration";
 import Timer from "./pages/Timer"
 import Assignments from "./pages/Assignments"
 import NewAssignment from "./pages/NewAssignment"
+import UpdateAssignment from "./pages/UpdateAssignment"
 import { AuthContext } from "./helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -88,6 +89,7 @@ function App() {
             <Route path="/timer" element={<Timer />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/newAssignment" element={<NewAssignment />} />
+            <Route path="/updateAssignment/:assignmentId" element={<UpdateAssignment />} />
           </Routes>
         </Router>
       </AuthContext.Provider> 
