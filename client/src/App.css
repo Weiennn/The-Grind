@@ -90,7 +90,7 @@ body {
   margin-top: 15px;
   height: 40px;
   border: none;
-  background-color: lightskyblue;
+  background-color: dodgerblue;
   border-radius: 5px;
   color: white;
 }
@@ -241,4 +241,9 @@ button {
   display: flex;
   align-items: center;
   border: 1px solid lightgray;
+}
+
+#registrationButton {
+  background-color: dodgerblue;
+  color: white;
 }

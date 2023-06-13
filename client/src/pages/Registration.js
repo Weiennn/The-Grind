@@ -80,7 +80,7 @@ function Registration() {
   //TODO change icon
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="registrationContainer" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -149,8 +149,10 @@ function Registration() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                color="primary"
+                id="registrationButton"
               >
-                Sign Up
+                Sign up
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>

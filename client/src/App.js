@@ -11,6 +11,7 @@ import NewAssignment from "./pages/NewAssignment"
 import { AuthContext } from "./helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Navbar from './pages/Navbar';
 
 function App() {
   // State containing user login details
@@ -60,6 +61,7 @@ function App() {
     <div className="App">
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
+          <Navbar />
           <div className="navbar">
             <Link to="newPost">Create new post</Link>
             <Link to="/">Forum</Link>

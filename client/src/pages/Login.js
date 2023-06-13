@@ -128,6 +128,7 @@ function Login() {
               variant="contained"
               onClick={login}
               sx={{ mt: 3, mb: 2 }}
+              color="primary"
             >
               Sign In
             </Button>
