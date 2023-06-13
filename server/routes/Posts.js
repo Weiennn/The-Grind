@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 router.get('/byId/:id', async (req, res) => {
     // Create a variable set to the id param in the URL
     const id = req.params.id;
-    // Choosing the right post using the id
+    // Choosing the right post using the id with find by primary key(id column)
     const post = await Posts.findByPk(id);
     // Return response in json format
     res.json(post);

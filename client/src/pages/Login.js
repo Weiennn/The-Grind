@@ -67,7 +67,7 @@ function Login() {
     };
 
   return (
-    //TODO can be moved to root once settled on theme
+    //TODO theme can be moved to root once settled on theme
     //TODO to change Logo
     <ThemeProvider theme={defaultTheme}>
       <Container

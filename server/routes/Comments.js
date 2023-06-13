@@ -22,9 +22,22 @@ router.post("/", validateToken, async (req, res) => {
     // Set the comment's username
     comment.username = username;
     // Add data to the database
-    await Comments.create(comment);
+    const newComment = await Comments.create(comment);
     // Return response in json format
-    res.json(comment);
+    res.json(newComment);
 });
+
+router.delete("/:commentId", validateToken, async (req, res) => {
+    // Create a variable set to the commentId param in the URL
+    const commentId = req.params.commentId;
+    // Delete the comment where the commentId is equal to the commentId we are finding
+    await Comments.destroy({
+        where: {
+            id: commentId
+        }
+    });
+    // Return response in json format
+    res.json("DELETED SUCCESSFULLY");
+})
 
 module.exports = router;
