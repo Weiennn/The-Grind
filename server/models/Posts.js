@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
 
-    // Create association between Posts and Comments by adding postId to the Comments table
+    // Create association between Posts and Comments by adding postId to the Comments table; models is an object that contains all of the models defined in other files
     Posts.associate = (models) => {
         // Each post might have multiple comments
         Posts.hasMany(models.Comments, {
