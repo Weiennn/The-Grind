@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-//const { validateToken } = require("../middlewares/AuthMiddleware")
 
 // Get Assignments model from the models folder
 const { Assignments } = require("../models")
@@ -9,22 +8,39 @@ const { Assignments } = require("../models")
 router.get('/:userId', async (req, res) => {
     // Create a variable set to the userId param in the URL
     const userId = req.params.userId;
-    // Get all assignments where postId is equal to the postId we are finding
+    // Get all assignments where userId is equal to the userId we are finding
     const assignments = await Assignments.findAll( { where: { UserId: userId } });
     // Return response in json format
     res.json(assignments);
 });
-
-// Post a comment to a specific post if the user is logged in
+/*
+// Get specific assignment
+router.get('/updateAssignment/:assignmentId', async (req, res) => {
+    // Create a variable set to the assignmentId param in the URL
+    const assignmentId = req.params.assignmentId;
+    // Get the assignment where id is equal to the id we are finding
+    const assignments = await Assignments.findByPK(assignmentId);
+    // Return response in json format
+    res.json(assignments);
+});
+*/
+// Post an assignment to a specific user
 router.post("/", async (req, res) => {
-    // Create a variable set to the comment data
+    // Create a variable set to the assignment data
     const assignment = req.body;
-    // Create a variable set to the username obtained from AuthMiddleware.js
-   // const id = req.user.id;
-    // Set the comment's username
-    //assignment.UserId = id;
     // Add data to the database
     await Assignments.create(assignment);
+    // Return response in json format
+    res.json(assignment);
+});
+
+router.put("/updateAssignment/:assignmentId", async (req, res) => {
+    // Create a variable set to the assignment data
+    const assignment = req.body;
+    // Create a variable set to the id
+    const assignmentId = req.params.assignmentId;
+    // Update data to the database
+    await Assignments.update(assignment, { where: { id : assignmentId } });
     // Return response in json format
     res.json(assignment);
 });
