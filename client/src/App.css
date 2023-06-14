@@ -219,10 +219,6 @@ button {
   margin: 10px;
 }
 
-.loginContainer button {
-  background-color: dodgerblue;
-  color: white;
-}
 
 /* can remove */
 .loginContainer input {
@@ -243,7 +239,3 @@ button {
   border: 1px solid lightgray;
 }
 
-#registrationButton {
-  background-color: dodgerblue;
-  color: white;
-}
