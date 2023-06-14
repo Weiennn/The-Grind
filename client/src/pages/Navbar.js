@@ -29,7 +29,6 @@ import Registration from "./Registration";
 import Timer from "./Timer";
 import Assignments from "./Assignments";
 import NewAssignment from "./NewAssignment";
-import UpdateAssignment from "./UpdateAssignment";
 import { AuthContext } from "../helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -239,10 +238,6 @@ export default function PersistentDrawerLeft() {
               <Route path="/timer" element={<Timer />} />
               <Route path="/assignments" element={<Assignments />} />
               <Route path="/newAssignment" element={<NewAssignment />} />
-              <Route
-                path="/updateAssignment/:assignmentId"
-                element={<UpdateAssignment />}
-              />
             </Routes>
           </Main>
         </Router>
