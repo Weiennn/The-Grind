@@ -19,7 +19,7 @@ router.get('/updateAssignment/:assignmentId', async (req, res) => {
     // Create a variable set to the assignmentId param in the URL
     const assignmentId = req.params.assignmentId;
     // Get the assignment where id is equal to the id we are finding
-    const assignments = await Assignments.findByPK(assignmentId);
+    const assignment = await Assignments.findByPK(assignmentId);
     // Return response in json format
     res.json(assignments);
 });
@@ -34,15 +34,37 @@ router.post("/", async (req, res) => {
     res.json(assignment);
 });
 
-router.put("/updateAssignment/:assignmentId", async (req, res) => {
-    // Create a variable set to the assignment data
-    const assignment = req.body;
+router.put("/title", async (req, res) => {
+    // Create a variable set to the changed data
+    const { title, id } = req.body;
     // Create a variable set to the id
-    const assignmentId = req.params.assignmentId;
+    //const id = req.params.id;
     // Update data to the database
-    await Assignments.update(assignment, { where: { id : assignmentId } });
+    await Assignments.update({ title: title }, { where: { id : id } });
     // Return response in json format
-    res.json(assignment);
+    res.json(req.body);
+});
+
+router.put("/desc", async (req, res) => {
+    // Create a variable set to the changed data
+    const { description, id } = req.body;
+    // Create a variable set to the id
+    //const id = req.params.id;
+    // Update data to the database
+    await Assignments.update({ description: description }, { where: { id : id } });
+    // Return response in json format
+    res.json(req.body);
+});
+
+router.put("/deadline", async (req, res) => {
+    // Create a variable set to the changed data
+    const { deadline, id } = req.body;
+    // Create a variable set to the id
+    //const id = req.params.id;
+    // Update data to the database
+    await Assignments.update({ deadline: deadline }, { where: { id : id } });
+    // Return response in json format
+    res.json(req.body);
 });
 
 module.exports = router;
