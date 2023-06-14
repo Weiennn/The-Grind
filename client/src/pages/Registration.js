@@ -16,7 +16,6 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function Copyright(props) {
   return (
@@ -32,8 +31,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-const defaultTheme = createTheme();
 
 function Registration() {
   // Obtaining state containing user login details
@@ -79,91 +76,92 @@ function Registration() {
 
   //TODO change icon
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 12,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+    <Container component="registrationContainer" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 12,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+          Sign up
+        </Typography>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-            Sign up
-          </Typography>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
-          >
-            <Form noValidate sx={{ mt: 2 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <ErrorMessage name="username" component="span" />
-                  <Field name="username">
-                    {({ field }) => (
-                      <TextField
-                        {...field}
-                        required
-                        fullWidth
-                        id="inputNewPost"
-                        label="Username"
-                        autoComplete="username"
-                      />
-                    )}
-                  </Field>
-                </Grid>
-                <Grid item xs={12}>
-                  <ErrorMessage name="password" component="span" />
-                  <Field name="password">
-                    {({ field }) => (
-                      <TextField
-                        {...field}
-                        required
-                        fullWidth
-                        type="password"
-                        id="inputNewPost"
-                        label="Password"
-                        autoComplete="new-password"
-                      />
-                    )}
-                  </Field>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
-                    }
-                    label="I would like to receive information about the goods and services which may be provided by
+          <Form noValidate sx={{ mt: 2 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <ErrorMessage name="username" component="span" />
+                <Field name="username">
+                  {({ field }) => (
+                    <TextField
+                      {...field}
+                      required
+                      fullWidth
+                      id="inputNewPost"
+                      label="Username"
+                      autoComplete="username"
+                    />
+                  )}
+                </Field>
+              </Grid>
+              <Grid item xs={12}>
+                <ErrorMessage name="password" component="span" />
+                <Field name="password">
+                  {({ field }) => (
+                    <TextField
+                      {...field}
+                      required
+                      fullWidth
+                      type="password"
+                      id="inputNewPost"
+                      label="Password"
+                      autoComplete="new-password"
+                    />
+                  )}
+                </Field>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
+                  label="I would like to receive information about the goods and services which may be provided by
                     the Grind via email."
-                  />
-                </Grid>
+                />
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign Up
-              </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              color="secondary"
+              id="registrationButton"
+            >
+              Sign up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="#" variant="body2">
+                  Already have an account? Sign in
+                </Link>
               </Grid>
-            </Form>
-          </Formik>
-        </Box>
+            </Grid>
+          </Form>
+        </Formik>
+      </Box>
 
-        {/*
+      {/*
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -189,9 +187,8 @@ function Registration() {
           </Form>
         </Formik>
                   */}
-      </Container>
       <Copyright sx={{ mt: 14 }} />
-    </ThemeProvider>
+    </Container>
   );
 }
 

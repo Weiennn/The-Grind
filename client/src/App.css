@@ -90,7 +90,7 @@ body {
   margin-top: 15px;
   height: 40px;
   border: none;
-  background-color: lightskyblue;
+  background-color: dodgerblue;
   border-radius: 5px;
   color: white;
 }
@@ -219,10 +219,6 @@ button {
   margin: 10px;
 }
 
-.loginContainer button {
-  background-color: dodgerblue;
-  color: white;
-}
 
 /* can remove */
 .loginContainer input {
@@ -242,3 +238,4 @@ button {
   align-items: center;
   border: 1px solid lightgray;
 }
+
