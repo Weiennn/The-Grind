@@ -17,24 +17,30 @@ function Assignments() {
         })
     }, [])
     
-    const edit = (option, id) => {
+    const edit = (option, id, key) => {
         if (option === "title") {
             let newTitle = prompt("Enter new title");
             axios.put("http://localhost:3001/assignments/title", { title: newTitle, id: id }).then((response) => {
                 console.log(response);
-                setListOfAssignments(...listOfAssignments, listOfAssignments[id] = {...listOfAssignments[id], title: newTitle});
+                const temp = [...listOfAssignments];
+                temp[key] = {...listOfAssignments[key], title: newTitle};
+                setListOfAssignments(temp);
             });
         } else if (option === "description") {
             let newDesc = prompt("Enter new description");
             axios.put("http://localhost:3001/assignments/desc", { description: newDesc, id: id }).then((response) => {
                 console.log(response);
-                setListOfAssignments(...listOfAssignments, listOfAssignments[id] = {...listOfAssignments[id], description: newDesc});
+                const temp = [...listOfAssignments];
+                temp[key] = {...listOfAssignments[key], description: newDesc};
+                setListOfAssignments(temp);
             });
         } else {
-            let newDeadline = prompt("Enter new deadline");
+            let newDeadline = prompt("Enter new deadline (YYYY-MM-DD)");
             axios.put("http://localhost:3001/assignments/deadline", { deadline: newDeadline, id: id }).then((response) => {
                 console.log(response);
-                setListOfAssignments(...listOfAssignments, listOfAssignments[id] = {...listOfAssignments[id], deadline: newDeadline});
+                const temp = [...listOfAssignments];
+                temp[key] = {...listOfAssignments[key], deadline: newDeadline};
+                setListOfAssignments(temp);
             });
         }
     }
@@ -44,9 +50,10 @@ function Assignments() {
             {listOfAssignments.map((value, key) => {
                 return (
                     <div className="assignment">
-                        <div className="title" onClick={ () => { edit("title", value.id) } }> {value.title} </div>
-                        <div className="description" onClick={ () => { edit("description", value.id) } }> {value.description} </div>
-                        <div className="deadline" onClick={ () => { edit("deadline", value.id) } }> {value.deadline} </div>
+                        <div className="title" onClick={ () => { edit("title", value.id, key) } }> {value.title} </div>
+                        <div className="description" onClick={ () => { edit("description", value.id, key) } }> {value.description} </div>
+                        <div className="deadline" onClick={ () => { edit("deadline", value.id, key) } }> {value.deadline} </div>
+                        <button> Nothing </button>
                     </div>
                 )
             })}
