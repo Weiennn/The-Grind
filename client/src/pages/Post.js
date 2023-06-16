@@ -109,17 +109,17 @@ function Post() {
             maxWidth: "100%",
             borderColor: theme.palette.primary.main,
             padding: "20px",
-            marginBottom: "20px",
+            mb: "20px",
             backgroundColor: theme.palette.background.paper,
           }}
         >
-          <Typography variant="h4" component="h1" sx={{ marginBottom: "10px" }}>
+          <Typography variant="h4" component="h1" sx={{ mb: "10px" }}>
             {postObject.title}
           </Typography>
           <Typography
             variant="subtitle1"
             component="p"
-            sx={{ color: theme.palette.text.secondary, marginBottom: "10px" }}
+            sx={{ color: theme.palette.text.secondary, mb: "10px" }}
           >
             {`Username: ${postObject.username}, Created on: ${
               postObject.createdAt ? postObject.createdAt.split("T")[0] : ""
@@ -128,7 +128,7 @@ function Post() {
           <Typography
             variant="body1"
             component="div"
-            sx={{ marginBottom: "20px" }}
+            sx={{ mb: "20px" }}
           >
             {postObject.postText}
           </Typography>
@@ -140,7 +140,7 @@ function Post() {
             border: "1px solid",
             borderColor: theme.palette.primary.main,
             padding: "20px",
-            marginBottom: "20px",
+            mb: "20px",
             backgroundColor: theme.palette.background.paper,
           }}
         >
@@ -150,13 +150,13 @@ function Post() {
             fullWidth
             value={newComment}
             onChange={(event) => setNewComment(event.target.value)}
-            sx={{ marginBottom: "10px" }}
+            sx={{ mb: "10px" }}
           />
           <Button
             variant="contained"
             color="secondary"
             onClick={addComment}
-            sx={{ marginBottom: "10px" }}
+            sx={{ mb: "10px" }}
           >
             Comment
           </Button>
@@ -166,12 +166,12 @@ function Post() {
                 key={key}
                 elevation={1}
                 sx={{
-                  marginBottom: key === comments.length - 1 ? 0 : "10px",
+                  mb: key === comments.length - 1 ? 0 : "10px",
                   padding: "10px",
                   backgroundColor: theme.palette.background.paper,
                 }}
               >
-                <Typography variant="body1" sx={{ marginBottom: "5px" }}>
+                <Typography variant="body1" sx={{ mb: "5px" }}>
                   {comment.commentBody}
                 </Typography>
                 <Typography variant="body2">
@@ -182,7 +182,7 @@ function Post() {
                     variant="outlined"
                     color="secondary"
                     onClick={() => deleteComment(comment.id)}
-                    sx={{ marginTop: "10px" }}
+                    sx={{ mt: "10px" }}
                   >
                     Delete
                   </Button>
@@ -190,7 +190,7 @@ function Post() {
               </Paper>
             ))
           ) : (
-            <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <Typography variant="body1" sx={{ mb: "10px" }}>
               No comments yet. Be the first to comment!
             </Typography>
           )}
