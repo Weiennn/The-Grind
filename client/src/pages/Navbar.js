@@ -201,6 +201,10 @@ export default function PersistentDrawerLeft() {
             open={open}
           >
             <DrawerHeader>
+              <Box width="55%">
+                <Typography variant="h4">{authState.username}</Typography>
+              </Box>
+
               <IconButton
                 onClick={handleDrawerClose}
                 sx={{ width: "32px", height: "32px" }}
@@ -214,29 +218,25 @@ export default function PersistentDrawerLeft() {
             </DrawerHeader>
             <Divider />
             <List>
-              <Box>
+              <Typography variant="h6">
                 <Link to="newPost">Create new post</Link>
-              </Box>
+              </Typography>
               <Divider />
-              <Link to="/">Forum</Link>
+              <Typography variant="h6">
+                <Link to="/">Forum</Link>
+              </Typography>
               <Divider />
-              <Link to="timer">Timer</Link>
+              <Typography variant="h6">
+                <Link to="timer">Timer</Link>
+              </Typography>
               <Divider />
-              {!authState.status ? (
-                <>
-                  <Link to="login">Login</Link>
-                  <Divider />
-                  <Link to="registration">Registration</Link>
-                </>
-              ) : (
-                <>
-                  <Link to="assignments">Assignments</Link>
-                  <Divider />
-                  <Link to="newAssignment">Create Assignment</Link>
-                  <button onClick={logout}>Logout</button>
-                </>
-              )}
-              <h1>{authState.username}</h1>
+              <Typography variant="h6">
+                <Link to="assignments">Assignments</Link>
+              </Typography>
+              <Divider />
+              <Typography variant="h6">
+                <Link to="newAssignment"> Create Assignment</Link>
+              </Typography>
             </List>
             <Divider />
           </Drawer>
