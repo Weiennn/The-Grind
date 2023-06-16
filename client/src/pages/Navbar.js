@@ -12,14 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Button from "@mui/material/Button";
-
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Forum from "./Forum";
 import NewPost from "./NewPost";
@@ -135,9 +128,9 @@ export default function PersistentDrawerLeft() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AuthContext.Provider value={{ authState, setAuthState }}>
-        <Router>
+    <Router>
+      <Box sx={{ display: "flex" }}>
+        <AuthContext.Provider value={{ authState, setAuthState }}>
           <CssBaseline />
           <AppBar position="fixed" open={open}>
             <Toolbar>
@@ -171,9 +164,27 @@ export default function PersistentDrawerLeft() {
               >
                 TimeTrekker
               </Typography>
-              <Button size="large" variant="contained" color="secondary">
-                Login
-              </Button>
+              {!authState.status ? (
+                <Button
+                  component={Link}
+                  size="large"
+                  variant="contained"
+                  color="secondary"
+                  to="/login"
+                >
+                  Login
+                </Button>
+              ) : (
+                <Button
+                  component={Link}
+                  size="large"
+                  variant="contained"
+                  color="secondary"
+                  onClick={logout}
+                >
+                  Logout
+                </Button>
+              )}
             </Toolbar>
           </AppBar>
           <Drawer
@@ -190,6 +201,10 @@ export default function PersistentDrawerLeft() {
             open={open}
           >
             <DrawerHeader>
+              <Box width="55%">
+                <Typography variant="h4">{authState.username}</Typography>
+              </Box>
+
               <IconButton
                 onClick={handleDrawerClose}
                 sx={{ width: "32px", height: "32px" }}
@@ -203,27 +218,25 @@ export default function PersistentDrawerLeft() {
             </DrawerHeader>
             <Divider />
             <List>
-              <Link to="newPost">Create new post</Link>
+              <Typography variant="h6">
+                <Link to="newPost">Create new post</Link>
+              </Typography>
               <Divider />
-              <Link to="/">Forum</Link>
+              <Typography variant="h6">
+                <Link to="/">Forum</Link>
+              </Typography>
               <Divider />
-              <Link to="timer">Timer</Link>
+              <Typography variant="h6">
+                <Link to="timer">Timer</Link>
+              </Typography>
               <Divider />
-              {!authState.status ? (
-                <>
-                  <Link to="login">Login</Link>
-                  <Divider />
-                  <Link to="registration">Registration</Link>
-                </>
-              ) : (
-                <>
-                  <Link to="assignments">Assignments</Link>
-                  <Divider />
-                  <Link to="newAssignment">Create Assignment</Link>
-                  <button onClick={logout}>Logout</button>
-                </>
-              )}
-              <h1>{authState.username}</h1>
+              <Typography variant="h6">
+                <Link to="assignments">Assignments</Link>
+              </Typography>
+              <Divider />
+              <Typography variant="h6">
+                <Link to="newAssignment"> Create Assignment</Link>
+              </Typography>
             </List>
             <Divider />
           </Drawer>
@@ -240,9 +253,8 @@ export default function PersistentDrawerLeft() {
               <Route path="/newAssignment" element={<NewAssignment />} />
             </Routes>
           </Main>
-        </Router>
-      </AuthContext.Provider>
-    </Box>
+        </AuthContext.Provider>
+      </Box>
+    </Router>
   );
 }
-

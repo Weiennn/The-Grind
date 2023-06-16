@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../helper/AuthContext";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -10,7 +10,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -76,7 +75,11 @@ function Registration() {
 
   //TODO change icon
   return (
-    <Container component="registrationContainer" maxWidth="xs">
+    <Container
+      component="registrationContainer"
+      maxWidth="xs"
+      style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}
+    >
       <CssBaseline />
       <Box
         sx={{
@@ -152,7 +155,7 @@ function Registration() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/login" href="#" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -160,34 +163,7 @@ function Registration() {
           </Form>
         </Formik>
       </Box>
-
-      {/*
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
-          <Form class="formContainer">
-            <label>Username: </label>
-            <ErrorMessage name="username" component="span" />
-            <Field
-              id="inputNewPost"
-              name="username"
-              placeholder="John cena..."
-            />
-            <label>Password: </label>
-            <ErrorMessage name="password" component="span" />
-            <Field
-              type="password"
-              id="inputNewPost"
-              name="password"
-              placeholder="Password..."
-            />
-            <button type="submit"> Register </button>
-          </Form>
-        </Formik>
-                  */}
-      <Copyright sx={{ mt: 14 }} />
+      <Copyright sx={{ mt: 22 }} />
     </Container>
   );
 }

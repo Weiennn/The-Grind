@@ -1,9 +1,8 @@
-import './App.css';
+import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Navbar from './pages/Navbar';
+import Navbar from "./pages/Navbar";
 
 function App() {
-
   const defaultTheme = createTheme({
     palette: {
       mode: "light",
