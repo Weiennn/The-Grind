@@ -31,6 +31,7 @@ function Forum() {
             component="div"
             color="secondary"
             className="post"
+            bordercolor="primary"
             onClick={() => {
               navigate(`/post/${value.id}`);
             }}
