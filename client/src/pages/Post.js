@@ -8,7 +8,6 @@ import {
   Box,
   Container,
   Paper,
-  Stack,
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -125,11 +124,7 @@ function Post() {
               postObject.createdAt ? postObject.createdAt.split("T")[0] : ""
             }`}
           </Typography>
-          <Typography
-            variant="body1"
-            component="div"
-            sx={{ mb: "20px" }}
-          >
+          <Typography variant="body1" component="div" sx={{ mb: "20px" }}>
             {postObject.postText}
           </Typography>
         </Container>
@@ -137,8 +132,6 @@ function Post() {
           className="commentContainer"
           sx={{
             width: "60%",
-            border: "1px solid",
-            borderColor: theme.palette.primary.main,
             padding: "20px",
             mb: "20px",
             backgroundColor: theme.palette.background.paper,
@@ -156,7 +149,11 @@ function Post() {
             variant="contained"
             color="secondary"
             onClick={addComment}
-            sx={{ mb: "10px" }}
+            sx={{
+              mb: "10px",
+              border: "1px solid",
+              borderColor: theme.palette.primary.main,
+            }}
           >
             Comment
           </Button>
@@ -166,6 +163,8 @@ function Post() {
                 key={key}
                 elevation={1}
                 sx={{
+                  border: "1px solid",
+                  borderColor: theme.palette.primary.main,
                   mb: key === comments.length - 1 ? 0 : "10px",
                   padding: "10px",
                   backgroundColor: theme.palette.background.paper,

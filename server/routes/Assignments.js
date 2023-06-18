@@ -13,6 +13,14 @@ router.get('/:userId', async (req, res) => {
     // Return response in json format
     res.json(assignments);
 });
+
+router.get("/", async (req, res) => {
+    // Create a variable set to all assignments in the table
+    const listOfAssignments = await Assignments.findAll();
+    // Return response in json format
+    res.json(listOfAssignments);
+});
+
 /*
 // Get specific assignment
 router.get('/updateAssignment/:assignmentId', async (req, res) => {
@@ -66,5 +74,30 @@ router.put("/deadline", async (req, res) => {
     // Return response in json format
     res.json(req.body);
 });
+
+router.put("/completed", async (req, res) => {
+    // Create a variable set to the changed data
+    const { completed, id } = req.body;
+    const assignmentObj = await Assignments.findOne({ where: { id : id } });
+    if (assignmentObj.recurring != null && assignmentObj.recurring === true) {
+        // Update data to the database
+        await Assignments.update({ completed: completed }, { where: { id : id } });
+        res.json("updated");
+    } else {
+        // else remove it from db
+        await Assignments.destroy({ where: { id : id } });
+        res.json("deleted");
+    }    
+});
+
+router.delete("/:id", async (req, res) => {
+    // Create a variable set to the id
+    const id = req.params.id;
+    // Delete data from the database
+    await Assignments.destroy({ where: { id : id } });
+    // Return response in json format
+    res.json("Deleted");
+});
+    
 
 module.exports = router;

@@ -18,7 +18,7 @@ function NewAssignment() {
     };
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:3001/assignments", {...data, UserId: id}).then((response) => {
+        axios.post("http://localhost:3001/assignments", {...data, completed: false, UserId: id}).then((response) => {
             console.log(response);
         })
     }
