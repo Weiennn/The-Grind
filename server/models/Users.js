@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
             // When deleting a user, every assignment associated to it gets deleted
             onDelete: 'cascade',
         });
+        // Each user might have multiple tracked timings
+        Users.hasMany(models.Times, {
+            // When deleting a user, every timing associated to it gets deleted
+            onDelete: 'cascade',
+        });
     };
 
     return Users;
