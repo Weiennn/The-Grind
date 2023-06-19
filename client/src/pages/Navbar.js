@@ -20,6 +20,8 @@ import Post from "./Post";
 import Login from "./Login";
 import Registration from "./Registration";
 import Timer from "./Timer";
+import StudyTimer from "./StudyTimer";
+import RestTimer from "./RestTimer";
 import Assignments from "./Assignments";
 import NewAssignment from "./NewAssignment";
 import { AuthContext } from "../helper/AuthContext";
@@ -249,6 +251,8 @@ export default function PersistentDrawerLeft() {
               <Route path="/login" element={<Login />} />
               <Route path="/registration" element={<Registration />} />
               <Route path="/timer" element={<Timer />} />
+              <Route path="/studyTimer" element={<StudyTimer />} />
+              <Route path="/restTimer" element={<RestTimer />} />
               <Route path="/assignments" element={<Assignments />} />
               <Route path="/newAssignment" element={<NewAssignment />} />
             </Routes>
