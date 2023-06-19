@@ -4,13 +4,14 @@ import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../helper/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import { Card, Container, Divider, Stack, Typography } from "@mui/material";
+import { Button, Card, Container, Divider, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkbox from "@mui/material/Checkbox";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ToggleButton from "@mui/material/ToggleButton";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
-import { alignProperty } from "@mui/material/styles/cssUtils";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 function Assignments() {
   const [listOfAssignments, setListOfAssignments] = useState([]);
@@ -93,27 +94,75 @@ function Assignments() {
           };
           setListOfAssignments(temp);
         } else {
-          setListOfAssignments(
-            listOfAssignments.filter((val) => {
-              return val.id != id;
-            })
-          );
+          const temp = [...listOfAssignments];
+          temp[key] = {
+            ...listOfAssignments[key],
+            completed: !listOfAssignments[key].completed,
+          };
+          setListOfAssignments(temp);
+          setTimeout(() => {
+            setListOfAssignments(
+              listOfAssignments.filter((val) => {
+                return val.id != id;
+              })
+            );
+          }, 500);
         }
       });
   };
 
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:3001/assignments/${id}`).then((response) => {
+        setListOfAssignments(
+            listOfAssignments.filter((val) => {
+                return val.id != id;
+            })
+        );
+    });
+    };
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", width: "80vw" }}>
-      <Container sx={{ width: "100%", display: "flex", flexDirection: "row" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "78vw",
+      }}
+    >
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          py: 1,
+          flexGrow: 1,
+        }}
+      >
         <Typography variant="h4" component="h4" sx={{ flexGrow: 1 }}>
           Assignments
         </Typography>
-        <ToggleButton value="filter">
+        <ToggleButton>
+          <Typography
+            variant="body1"
+            component="label"
+            sx={{ mr: 0.5, color: theme.palette.secondary.main }}
+          >
+            Add Assignment
+          </Typography>
+          <AddBoxIcon
+            fontSize="large"
+            sx={{ color: theme.palette.secondary.main }}
+          />
+        </ToggleButton>
+        <ToggleButton
+          value="filter"
+          sx={{ ml: 2, color: theme.palette.secondary.main }}
+        >
           <FilterListIcon />
         </ToggleButton>
       </Container>
       <Divider />
-      <Stack spacing={2} sx={{ mt: 2 }}>
+      <Stack spacing={2} sx={{ mt: 2, flexGrow: 1 }}>
         {listOfAssignments.map((value, key) => (
           <Card
             key={key}
@@ -152,7 +201,7 @@ function Assignments() {
                 <Typography
                   variant="body2"
                   component="div"
-                  sx={{ color: theme.palette.secondary.main, marginLeft: 1 }}
+                  sx={{ color: theme.palette.primary.main, marginLeft: 1 }}
                 >
                   Recurring Task
                 </Typography>
@@ -174,6 +223,10 @@ function Assignments() {
                 Deadline: {value.deadline}
               </Typography>
             </Box>
+            <DeleteIcon
+              onClick={() => handleDelete(value.id)}
+              sx={{ cursor: "pointer", color: theme.palette.secondary.main }}
+            />
           </Card>
         ))}
       </Stack>

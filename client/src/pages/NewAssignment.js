@@ -3,12 +3,19 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../helper/AuthContext";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function NewAssignment() {
     const { authState } = useContext(AuthContext);
     const id = authState.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    const [selectedDate, setSelectedDate] = React.useState(null);
+
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
 
     const initialValues = {
         title: "",
@@ -31,42 +38,51 @@ function NewAssignment() {
     })
 
     return (
-        <div className="newAssignmentPage">
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                <Form className='formContainer'>
-                    <label className="title">Title:</label>
-                    <ErrorMessage name="title" component="span"/>
-                    <Field
-                        id="inputCreateAssignment"
-                        name="title"
-                        placeholder="Title..."
-                    />
-                    <label className="description">Description:</label>
-                    <ErrorMessage name="description" component="span"/>
-                    <Field
-                        id="inputCreateAssignment"
-                        name="description"
-                        placeholder="Description..."
-                    />
-                    <label className="deadline">Deadline (YYYY-MM-DD):</label>
-                    <ErrorMessage name="deadline" component="span"/>
-                    <Field
-                        id="inputCreateAssignment"
-                        name="deadline"
-                        placeholder="YYYY-MM-DD"
-                    />
-                    <label className="recurring">Recurring?</label>
-                    <ErrorMessage name="recurring" component="span"/>
-                    <Field
-                        id="inputCreateAssignment"
-                        name="recurring"
-                        placeholder="true or false..."
-                    />
-                    <button type="submit"> Create Assignment </button>
-                </Form>
-            </Formik>
-        </div>
-  )
+      <div className="newAssignmentPage">
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
+          <Form className="formContainer">
+            <label className="title">Title:</label>
+            <ErrorMessage name="title" component="span" />
+            <Field
+              id="inputCreateAssignment"
+              name="title"
+              placeholder="Title..."
+            />
+            <label className="description">Description:</label>
+            <ErrorMessage name="description" component="span" />
+            <Field
+              id="inputCreateAssignment"
+              name="description"
+              placeholder="Description..."
+            />
+            <label className="deadline">Deadline (YYYY-MM-DD):</label>
+            <ErrorMessage name="deadline" component="span" />
+            <Field
+              id="inputCreateAssignment"
+              name="deadline"
+              placeholder="YYYY-MM-DD"
+            />
+            <DatePicker
+              label="Basic date picker"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+            <label className="recurring">Recurring?</label>
+            <ErrorMessage name="recurring" component="span" />
+            <Field
+              id="inputCreateAssignment"
+              name="recurring"
+              placeholder="true or false..."
+            />
+            <button type="submit"> Create Assignment </button>
+          </Form>
+        </Formik>
+      </div>
+    );
 }
 
 export default NewAssignment;
