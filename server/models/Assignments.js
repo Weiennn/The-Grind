@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         deadline: {
             type: DataTypes.DATEONLY,
-            allowNull: false,
+            allowNull: true,
+            defaultValue: null,
             get() {
                 return moment(this.getDataValue('deadline')).format('DD.MM.YYYY');
             }
