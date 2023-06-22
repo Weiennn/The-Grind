@@ -38,6 +38,7 @@ function Forum() {
             onClick={() => {
               navigate(`/post/${value.id}`);
             }}
+            sx={{ width: "50%", }}
           >
             <Box
               component="div"

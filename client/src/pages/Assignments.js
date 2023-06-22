@@ -136,7 +136,14 @@ function Assignments() {
             completed: !listOfAssignments[key].completed,
           };
           setListOfAssignments(temp);
-        } else {
+          setTimeout(() => {
+            setListOfAssignments(
+              listOfAssignments.filter((val) => {
+                return val.id !== id;
+              })
+            );
+          }, 300);
+        } else { // deleted
           const temp = [...listOfAssignments];
           temp[key] = {
             ...listOfAssignments[key],
@@ -149,7 +156,7 @@ function Assignments() {
                 return val.id !== id;
               })
             );
-          }, 500);
+          }, 300);
         }
       });
   };
@@ -197,15 +204,21 @@ function Assignments() {
           alignItems: "center",
           py: 1,
           flexGrow: 1,
-          mb: 0.5
+          mb: 0.5,
         }}
       >
-        <Typography variant="h4" component="h4" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h4"
+          component="h4"
+          sx={{ flexGrow: 1, color: theme.palette.primary.main }}
+        >
           Assignments
         </Typography>
-
-        <ToggleButton onClick={() => {
-              navigate(`/newAssignment`);}}>
+        <ToggleButton
+          onClick={() => {
+            navigate(`/newAssignment`);
+          }}
+        >
           <Typography
             variant="body1"
             component="label"

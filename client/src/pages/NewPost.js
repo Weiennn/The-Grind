@@ -52,6 +52,7 @@ function NewPost() {
       sx={{
         display: "flex",
         flexDirection: "column",
+        width: "100%",
         alignItems: "center",
         justifyContent: "space-between",
         border: "5px solid",
@@ -66,15 +67,15 @@ function NewPost() {
       >
         <Form class="formContainer">
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{ mb: 2, color: theme.palette.primary.main }}
           >
-            Create Post
+            New Post
           </Typography>
           <Field
             id="inputCreatePost"
             name="title"
-            placeholder="Title..."
+            label="Title"
             component={TextField}
             fullWidth
             variant="outlined"
@@ -83,18 +84,14 @@ function NewPost() {
           <Field
             id="inputCreatePost"
             name="postText"
-            placeholder="Post..."
+            label="Post"
             component={TextField}
             fullWidth
             variant="outlined"
             sx={{ mb: 2 }}
           />
-          <Box sx={{ display: "flex", justifyContent: "flex-end"}}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button type="submit" variant="contained" color="secondary">
               Create Post
             </Button>
           </Box>

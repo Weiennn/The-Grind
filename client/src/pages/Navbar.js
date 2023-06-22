@@ -27,6 +27,13 @@ import NewAssignment from "./NewAssignment";
 import { AuthContext } from "../helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Container, Direction, ToggleButton } from "@mui/material";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import TimerIcon from "@mui/icons-material/Timer";
+import ForumIcon from "@mui/icons-material/Forum";
+import AddIcon from "@mui/icons-material/Add";
+import CreateIcon from "@mui/icons-material/Create";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -78,6 +85,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  let navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -130,135 +138,207 @@ export default function PersistentDrawerLeft() {
   };
 
   return (
-    <Router>
-      <Box sx={{ display: "flex" }}>
-        <AuthContext.Provider value={{ authState, setAuthState }}>
-          <CssBaseline />
-          <AppBar position="fixed" open={open}>
-            <Toolbar>
-              <IconButton
-                size="small"
-                aria-label="menu"
-                color="inherit"
-                onClick={open ? handleDrawerClose : handleDrawerOpen}
-                edge="start"
-                sx={{
-                  mr: 2,
-                  ...(open && { display: "none" }),
-                  justifyContent: "flex-start",
-                  display: "flex",
-                  width: "32px",
-                  height: "32px",
-                }}
+    <Box sx={{ display: "flex" }}>
+      <AuthContext.Provider value={{ authState, setAuthState }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              size="small"
+              aria-label="menu"
+              color="inherit"
+              onClick={open ? handleDrawerClose : handleDrawerOpen}
+              edge="start"
+              sx={{
+                mr: 2,
+                ...(open && { display: "none" }),
+                justifyContent: "flex-start",
+                display: "flex",
+                width: "32px",
+                height: "32px",
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                flexGrow: 1,
+                justifyContent: "flex-start",
+                display: "flex",
+                flexBasis: "auto",
+              }}
+            >
+              TimeTrekker
+            </Typography>
+            {!authState.status ? (
+              <Button
+                component={Link}
+                size="large"
+                variant="contained"
+                color="secondary"
+                to="/login"
               >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{
-                  flexGrow: 1,
-                  justifyContent: "flex-start",
-                  display: "flex",
-                  flexBasis: "auto",
-                }}
+                Login
+              </Button>
+            ) : (
+              <Button
+                component={Link}
+                size="large"
+                variant="contained"
+                color="secondary"
+                onClick={logout}
               >
-                TimeTrekker
-              </Typography>
-              {!authState.status ? (
-                <Button
-                  component={Link}
-                  size="large"
-                  variant="contained"
-                  color="secondary"
-                  to="/login"
-                >
-                  Login
-                </Button>
-              ) : (
-                <Button
-                  component={Link}
-                  size="large"
-                  variant="contained"
-                  color="secondary"
-                  onClick={logout}
-                >
-                  Logout
-                </Button>
-              )}
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            sx={{
+                Logout
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
               width: drawerWidth,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
             }}
-            variant="persistent"
-            anchor="left"
-            open={open}
           >
-            <DrawerHeader>
-              <Box width="55%">
-                <Typography variant="h4">{authState.username}</Typography>
-              </Box>
-
-              <IconButton
-                onClick={handleDrawerClose}
-                sx={{ width: "32px", height: "32px" }}
+            <Box width="55%" >
+              <Typography variant="h4">{authState.username}</Typography>
+            </Box>
+            <IconButton
+              onClick={handleDrawerClose}
+              sx={{
+                width: "32px",
+                height: "32px",
+                color: theme.palette.primary.contrastText,
+              }}
+            >
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <Box sx={{ display: "flex", flexDirection: "column", }}>
+            <Box>
+              <ToggleButton
+                fullWidth
+                onClick={() => {
+                  navigate(`/assignments`);
+                }}
               >
-                {theme.direction === "ltr" ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </DrawerHeader>
-            <Divider />
-            <List>
-              <Typography variant="h6">
-                <Link to="assignments">Assignments</Link>
-              </Typography>
-              <Divider />
-              <Typography variant="h6">
-                <Link to="timer">Timer</Link>
-              </Typography>
-              <Divider />
-              <Typography variant="h6">
-                <Link to="/">Forum</Link>
-              </Typography>
-              <Divider />
-              <Typography variant="h6">
-                <Link to="newAssignment"> Create new assignment</Link>
-              </Typography>
-              <Divider />
-              <Typography variant="h6">
-                <Link to="newPost">Create new post</Link>
-              </Typography>
-            </List>
-            <Divider />
-          </Drawer>
-          <Main open={open}>
-            <DrawerHeader />
-            <Routes>
-              <Route path="/" element={<Forum />} />
-              <Route path="/newPost" element={<NewPost />} />
-              <Route path="/post/:id" element={<Post />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/registration" element={<Registration />} />
-              <Route path="/timer" element={<Timer />} />
-              <Route path="/studyTimer" element={<StudyTimer />} />
-              <Route path="/restTimer" element={<RestTimer />} />
-              <Route path="/assignments" element={<Assignments />} />
-              <Route path="/newAssignment" element={<NewAssignment />} />
-            </Routes>
-          </Main>
-        </AuthContext.Provider>
-      </Box>
-    </Router>
+                <Typography
+                  variant="h6"
+                  component="label"
+                  sx={{ mr: 1, color: theme.palette.secondary.main }}
+                >
+                  Assignment
+                </Typography>
+                <AssignmentIcon color="secondary" />
+              </ToggleButton>
+            </Box>
+            <Box>
+              <ToggleButton
+                fullWidth
+                onClick={() => {
+                  navigate(`/timer`);
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="label"
+                  sx={{ mr: 1, color: theme.palette.secondary.main }}
+                >
+                  Pomodoro Timer
+                </Typography>
+                <TimerIcon color="secondary" />
+              </ToggleButton>
+            </Box>
+            <Box>
+              <ToggleButton
+                fullWidth
+                onClick={() => {
+                  navigate(`/`);
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="label"
+                  sx={{ mr: 1, color: theme.palette.secondary.main }}
+                >
+                  Forum
+                </Typography>
+                <ForumIcon color="secondary" />
+              </ToggleButton>
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              <ToggleButton
+                fullWidth
+                onClick={() => {
+                  navigate(`/newAssignment`);
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="label"
+                  sx={{ mr: 1, color: theme.palette.secondary.main }}
+                >
+                  New Assignment
+                </Typography>
+                <AddIcon color="secondary" />
+              </ToggleButton>
+            </Box>
+
+            <Box>
+              <ToggleButton
+                fullWidth
+                onClick={() => {
+                  navigate(`/newPost`);
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="label"
+                  sx={{ mr: 1, color: theme.palette.secondary.main }}
+                >
+                  New Post
+                </Typography>
+                <CreateIcon color="secondary" />
+              </ToggleButton>
+            </Box>
+          </Box>
+        </Drawer>
+        <Main open={open}>
+          <DrawerHeader />
+          <Routes>
+            <Route path="/" element={<Forum />} />
+            <Route path="/newPost" element={<NewPost />} />
+            <Route path="/post/:id" element={<Post />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/timer" element={<Timer />} />
+            <Route path="/studyTimer" element={<StudyTimer />} />
+            <Route path="/restTimer" element={<RestTimer />} />
+            <Route path="/assignments" element={<Assignments />} />
+            <Route path="/newAssignment" element={<NewAssignment />} />
+          </Routes>
+        </Main>
+      </AuthContext.Provider>
+    </Box>
   );
 }

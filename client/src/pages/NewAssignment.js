@@ -11,8 +11,6 @@ import Box from "@mui/material/Box";
 import { useTheme } from "@emotion/react";
 import { Typography, Button, FormControlLabel, Container } from "@mui/material";
 import { TextField } from "formik-material-ui";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { ErrorMessage } from "formik";
 
 function NewAssignment(props) {
   const { authState } = useContext(AuthContext);
@@ -30,7 +28,7 @@ function NewAssignment(props) {
   const initialValues = {
     title: "",
     description: "",
-    deadline: "",
+    deadline: null,
     recurring: false,
   };
 
@@ -61,6 +59,7 @@ function NewAssignment(props) {
       sx={{
         display: "flex",
         flexDirection: "column",
+        width: "100%",
         alignItems: "center",
         justifyContent: "space-between",
         border: "5px solid",
@@ -70,15 +69,19 @@ function NewAssignment(props) {
     >
       <Formik
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={(values, { resetForm }) => {
+          onSubmit(values);
+          resetForm();
+          setSelectedDate(null);
+        }}
         validationSchema={validationSchema}
       >
         <Form className="formContainer">
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{ mb: 2, color: theme.palette.primary.main }}
           >
-            Create Assignment
+            New Assignment
           </Typography>
           <Field
             id="inputCreateAssignment"
@@ -88,23 +91,21 @@ function NewAssignment(props) {
             fullWidth
             variant="outlined"
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Deadline"
-              value={selectedDate}
-              onChange={handleDateChange}
-              sx={{
-                mt: 2,
-                mb: 2,
-                color: theme.palette.primary.main,
-                width: "100%",
-                height: "100%",
-              }}
-              inputFormat="DD-MM-YYYY"
-              fullWidth
-              PopperProps={{ style: { width: "100%" } }}
-            />
-          </LocalizationProvider>
+          <DatePicker
+            label="Deadline"
+            value={selectedDate}
+            onChange={handleDateChange}
+            sx={{
+              mt: 2,
+              mb: 2,
+              color: theme.palette.primary.main,
+              width: "100%",
+              height: "100%",
+            }}
+            inputFormat="DD-MM-YYYY"
+            fullWidth
+            PopperProps={{ style: { width: "100%" } }}
+          />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
               <Typography
@@ -118,6 +119,7 @@ function NewAssignment(props) {
                   <Switch
                     id="recurring"
                     {...field}
+                    checked={field.value}
                     sx={{ color: theme.palette.secondary.main }}
                   />
                 )}
