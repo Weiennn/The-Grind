@@ -221,11 +221,7 @@ export default function PersistentDrawerLeft() {
             <Divider />
             <List>
               <Typography variant="h6">
-                <Link to="newPost">Create new post</Link>
-              </Typography>
-              <Divider />
-              <Typography variant="h6">
-                <Link to="/">Forum</Link>
+                <Link to="assignments">Assignments</Link>
               </Typography>
               <Divider />
               <Typography variant="h6">
@@ -233,11 +229,15 @@ export default function PersistentDrawerLeft() {
               </Typography>
               <Divider />
               <Typography variant="h6">
-                <Link to="assignments">Assignments</Link>
+                <Link to="/">Forum</Link>
               </Typography>
               <Divider />
               <Typography variant="h6">
-                <Link to="newAssignment"> Create Assignment</Link>
+                <Link to="newAssignment"> Create new assignment</Link>
+              </Typography>
+              <Divider />
+              <Typography variant="h6">
+                <Link to="newPost">Create new post</Link>
               </Typography>
             </List>
             <Divider />

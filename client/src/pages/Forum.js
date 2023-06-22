@@ -6,10 +6,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import { useTheme } from "@emotion/react";
 
 function Forum() {
   const [listOfPosts, setListOfPosts] = useState([]);
   let navigate = useNavigate();
+  let theme = useTheme();
 
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
@@ -32,6 +34,7 @@ function Forum() {
             color="secondary"
             className="post"
             bordercolor="primary"
+            elevation={3}
             onClick={() => {
               navigate(`/post/${value.id}`);
             }}
@@ -42,6 +45,8 @@ function Forum() {
               sx={{
                 display: "flex",
                 flexWrap: "wrap",
+                backgroundColor: theme.palette.primary.main,
+                color: "white",
               }}
             >
               <Typography
@@ -61,14 +66,25 @@ function Forum() {
             >
               {value.postText}
             </Typography>
-            <Typography
-              className="footer"
-              variant="h5"
+            <Box
               component="div"
-              sx={{ flexGrow: 1 }}
+              classname="postTitleContainer"
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                backgroundColor: theme.palette.primary.main,
+                color: "white",
+              }}
             >
-              -{value.username}
-            </Typography>
+              <Typography
+                className="title"
+                variant="h5"
+                component="div"
+                sx={{ flexGrow: 1 }}
+              >
+                - {value.username}
+              </Typography>
+            </Box>
           </Paper>
         );
       })}

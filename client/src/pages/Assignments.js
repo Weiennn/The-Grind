@@ -190,13 +190,14 @@ function Assignments() {
         width: "78vw",
       }}
     >
-      <Container
+      <Box
         sx={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           py: 1,
           flexGrow: 1,
+          mb: 0.5
         }}
       >
         <Typography variant="h4" component="h4" sx={{ flexGrow: 1 }}>
@@ -213,7 +214,7 @@ function Assignments() {
             Add Assignment
           </Typography>
           <AddBoxIcon
-            fontSize="large"
+            fontSize="medium"
             sx={{ color: theme.palette.secondary.main }}
           />
         </ToggleButton>
@@ -236,7 +237,7 @@ function Assignments() {
           </Typography>
           <RestartAltIcon />
         </ToggleButton>
-      </Container>
+      </Box>
       <Divider />
       <Stack spacing={2} sx={{ mt: 2, flexGrow: 1 }}>
         {listOfAssignments.map((value, key) => (
