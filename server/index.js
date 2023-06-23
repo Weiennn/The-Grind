@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+//const cookieParser = require("cookie-parser");
 
 // Variable to make API requests and initialise server
 const app = express();
@@ -8,6 +9,7 @@ const app = express();
 app.use(express.json());
 // Allows API requests
 app.use(cors());
+app.use(cookieParser());
 
 // Goes over all tables created in the models folder
 const db = require('./models');

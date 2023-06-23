@@ -121,12 +121,14 @@ export default function PersistentDrawerLeft() {
   const logout = () => {
     // Remove accessToken
     localStorage.removeItem("accessToken");
-    // Set login status to be false as well as clear username and id
-    setAuthState({
-      username: "",
-      id: 0,
-      status: false,
-    });
+    /*axios.get("http://localhost:3001/auth/logout").then((response) => {*/
+      // Set login status to be false as well as clear username and id
+      setAuthState({
+        username: "",
+        id: 0,
+        status: false,
+      });
+    //})
   };
 
   return (
