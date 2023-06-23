@@ -104,7 +104,7 @@ function Post() {
           className="postContainer"
           sx={{
             width: "100%",
-            border: "2px solid",
+            border: "5px solid",
             maxWidth: "100%",
             borderColor: theme.palette.primary.main,
             padding: "20px",
@@ -143,7 +143,7 @@ function Post() {
             fullWidth
             value={newComment}
             onChange={(event) => setNewComment(event.target.value)}
-            sx={{ mb: "10px" }}
+            sx={{ mb: "10px",  }}
           />
           <Button
             variant="contained"
@@ -151,7 +151,6 @@ function Post() {
             onClick={addComment}
             sx={{
               mb: "10px",
-              border: "1px solid",
               borderColor: theme.palette.primary.main,
             }}
           >
@@ -163,7 +162,7 @@ function Post() {
                 key={key}
                 elevation={1}
                 sx={{
-                  border: "1px solid",
+                  border: "3px solid",
                   borderColor: theme.palette.primary.main,
                   mb: key === comments.length - 1 ? 0 : "10px",
                   padding: "10px",

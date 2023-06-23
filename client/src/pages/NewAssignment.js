@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { Component, useContext } from "react";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../helper/AuthContext";
@@ -8,111 +8,131 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Switch from "@mui/material/Switch";
 import Box from "@mui/material/Box";
-import { useTheme } from '@emotion/react';
+import { useTheme } from "@emotion/react";
+import { Typography, Button, FormControlLabel, Container } from "@mui/material";
+import { TextField } from "formik-material-ui";
 
 function NewAssignment(props) {
-    const { authState } = useContext(AuthContext);
-    const id = authState.id;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const theme = useTheme();
+  const { authState } = useContext(AuthContext);
+  const id = authState.id;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const theme = useTheme();
 
-    const [selectedDate, setSelectedDate] = React.useState(null);
+  const [selectedDate, setSelectedDate] = React.useState(null);
 
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-    };
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
-    const initialValues = {
-        title: "",
-        description: "",
-        deadline: "",
-        recurring: false
-    };
+  const initialValues = {
+    title: "",
+    description: "",
+    deadline: null,
+    recurring: false,
+  };
 
-    const onSubmit = (data) => {
-        data.deadline = selectedDate;
-        if (data.deadline === null) {
-            data.deadline = null;
-        }
-        axios.post("http://localhost:3001/assignments", {...data, completed: false, UserId: id}).then((response) => {
-            console.log(response);
-        })
+  const onSubmit = (data) => {
+    data.deadline = selectedDate;
+    if (data.deadline === null) {
+      data.deadline = null;
     }
+    axios
+      .post("http://localhost:3001/assignments", {
+        ...data,
+        completed: false,
+        UserId: id,
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
 
-    const validationSchema = Yup.object().shape({
-        title: Yup.string().required("A title is required"),
-        description: Yup.string().required("A description is required"),
-        // deadline: Yup.date().required("A date is required").min(today),
-        recurring: Yup.boolean().required("Please select an option")
-    })
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("A title is required"),
+    // description: Yup.string().required("A description is required"),
+    recurring: Yup.boolean().required("Please select an option"),
+  });
 
-    return (
-      <Box
-        sx={{
-          color: theme.palette.primary.main,
-          bordercolor: theme.palette.primary.main,
-          border: "5px solid",
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "space-between",
+        border: "5px solid",
+        borderColor: theme.palette.primary.main,
+        p: 2,
+      }}
+    >
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values, { resetForm }) => {
+          onSubmit(values);
+          resetForm();
+          setSelectedDate(null);
         }}
+        validationSchema={validationSchema}
       >
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
-          <Form className="formContainer">
-            <label className="title">Title:</label>
-            <ErrorMessage name="title" component="span" />
-            <Field
-              id="inputCreateAssignment"
-              name="title"
-              placeholder="Title..."
-            />
-            <label className="description">Description:</label>
-            <ErrorMessage name="description" component="span" />
-            <Field
-              id="inputCreateAssignment"
-              name="description"
-              placeholder="Description..."
-            />
-            <label className="deadline">Deadline (DD-MM-YYYY):</label>
-            {/* <ErrorMessage name="deadline" component="span" />
-            <Field
-              id="inputCreateAssignment"
-              name="deadline"
-              placeholder="YYYY-MM-DD"
-            /> */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Deadline"
-                value={selectedDate}
-                onChange={handleDateChange}
-                sx={{
-                  height: "50px",
-                  color: theme.palette.secondary.main,
-                }}
-              />
-            </LocalizationProvider>
-            <label className="recurring">Recurring?</label>
-            <ErrorMessage name="recurring" component="span" />
-            <Field name="recurring">
-              {({ field }) => <Switch id="recurring" {...field} />}
-            </Field>
-            <button
-              type="submit"
-              color="primary"
-              sx={{
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
-                borderColor: theme.palette.primary.main,
-              }}
-            >
+        <Form className="formContainer">
+          <Typography
+            variant="h4"
+            sx={{ mb: 2, color: theme.palette.primary.main }}
+          >
+            New Assignment
+          </Typography>
+          <Field
+            id="inputCreateAssignment"
+            name="title"
+            label="Title"
+            component={TextField}
+            fullWidth
+            variant="outlined"
+          />
+          <DatePicker
+            label="Deadline"
+            value={selectedDate}
+            onChange={handleDateChange}
+            sx={{
+              mt: 2,
+              mb: 2,
+              color: theme.palette.primary.main,
+              width: "100%",
+              height: "100%",
+            }}
+            inputFormat="DD-MM-YYYY"
+            fullWidth
+            PopperProps={{ style: { width: "100%" } }}
+          />
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box>
+              <Typography
+                variant="body3"
+                sx={{ color: theme.palette.primary.main }}
+              >
+                Recurring?
+              </Typography>
+              <Field name="recurring">
+                {({ field }) => (
+                  <Switch
+                    id="recurring"
+                    {...field}
+                    checked={field.value}
+                    sx={{ color: theme.palette.secondary.main }}
+                  />
+                )}
+              </Field>
+            </Box>
+            <Button type="submit" variant="contained" color="secondary">
               Create Assignment
-            </button>
-          </Form>
-        </Formik>
-      </Box>
-    );
+            </Button>
+          </Box>
+        </Form>
+      </Formik>
+    </Box>
+  );
 }
 
 export default NewAssignment;

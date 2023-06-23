@@ -16,7 +16,17 @@ router.get("/:userId", async (req, res) => {
 
 router.get("/", async (req, res) => {
   // Create a variable set to all assignments in the table
-  const listOfAssignments = await Assignments.findAll();
+  const notCompletedListOfAssignments = await Assignments.findAll({
+    where: { completed: false },
+  });
+  const completedListOfAssignments = await Assignments.findAll({
+    where: { completed: true },
+  });
+  const listOfAssignments = [
+    ...notCompletedListOfAssignments,
+    ...completedListOfAssignments,
+  ];
+
   // Return response in json format
   res.json(listOfAssignments);
 });
