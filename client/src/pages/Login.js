@@ -40,6 +40,8 @@ function Login() {
   const [username, setUsername] = useState("");
   // State containing password typed in input
   const [password, setPassword] = useState("");
+  // State containing information on whether to stay signed in or not
+  const [stay, setStay] = useState(false);
   // Obtaining state containing user login details
   const { setAuthState } = useContext(AuthContext);
 
@@ -55,12 +57,17 @@ function Login() {
         alert(response.data.error);
       } else {
         // Set accessToken inside localStorage
-        localStorage.setItem("accessToken", response.data.token);
+        if (stay) {
+          localStorage.setItem("accessToken", response.data.token);
+        } else {
+          sessionStorage.setItem("accessToken", response.data.token);
+        }
         // When logging in, set status to be true to signify being logged in and obtain the username as well as id
         setAuthState({
           username: response.data.username,
           id: response.data.id,
           status: true,
+          stay: stay,
         });
         // Change to home page
         navigate("/");
@@ -122,6 +129,7 @@ function Login() {
           <FormControlLabel
             control={<Checkbox value="remember" color="secondary" />}
             label="Remember me"
+            onClick={() => setStay(!stay)}
           />
           <Button
             type="submit"

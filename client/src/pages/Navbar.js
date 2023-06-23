@@ -99,27 +99,44 @@ export default function PersistentDrawerLeft() {
     username: "",
     id: 0,
     status: false,
+    stay: false,
   });
 
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
+    // Check if there is a token
+    let accessToken = localStorage.getItem("accessToken")
+    // Check if there is a token
+    if (!accessToken) {
+      accessToken = sessionStorage.getItem("accessToken")
+    } else {
+      // No idea why this does not work
+      /*const newAuth = { ...authState, stay: true }
+      setAuthState(newAuth);*/
+    }
     // Check if user has a valid token
     axios
       .get("http://localhost:3001/auth/auth", {
         headers: {
-          accessToken: localStorage.getItem("accessToken"),
+          accessToken: accessToken,
         },
       })
       .then((response) => {
         if (response.data.error) {
           // Set login status to be false
-          setAuthState({ ...authState, status: false });
+          setAuthState({ ...authState, status: false, stay: false });
         } else {
+          const check = localStorage.getItem("accessToken");
+          let stay = false;
+          if (check) {
+            stay = true;
+          }
           // Set login status to be true and set other user details
           setAuthState({
             username: response.data.username,
             id: response.data.id,
             status: true,
+            stay: stay,
           });
         }
       });
@@ -128,13 +145,19 @@ export default function PersistentDrawerLeft() {
   // Function called when logging out
   const logout = () => {
     // Remove accessToken
-    localStorage.removeItem("accessToken");
+    console.log(authState.stay);
+    if (authState.stay) {
+      localStorage.removeItem("accessToken");
+    } else {
+      sessionStorage.removeItem("accessToken");
+    }
     /*axios.get("http://localhost:3001/auth/logout").then((response) => {*/
       // Set login status to be false as well as clear username and id
       setAuthState({
         username: "",
         id: 0,
         status: false,
+        stay: false,
       });
     //})
   };

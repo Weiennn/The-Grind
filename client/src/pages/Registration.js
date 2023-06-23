@@ -59,12 +59,13 @@ function Registration() {
           alert(response.data.error);
         } else {
           // Set accessToken inside localStorage
-          localStorage.setItem("accessToken", response.data.token);
+          sessionStorage.setItem("accessToken", response.data.token);
           // When logging in, set status to be true to signify being logged in and obtain the username as well as id
           setAuthState({
             username: response.data.username,
             id: response.data.id,
             status: true,
+            stay: false,
           });
           // Change to home page
           navigate("/");

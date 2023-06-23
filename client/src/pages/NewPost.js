@@ -65,7 +65,7 @@ function NewPost() {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form class="formContainer">
+        <Form className="formContainer">
           <Typography
             variant="h4"
             sx={{ mb: 2, color: theme.palette.primary.main }}
