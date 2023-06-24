@@ -16,7 +16,7 @@ function Forum() {
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
     // Get data from the route for posts
-    axios.get("http://localhost:3001/posts").then((response) => {
+    axios.get("https://TimeTrekker.onrender.com/posts").then((response) => {
       setListOfPosts(response.data);
     });
   }, []);

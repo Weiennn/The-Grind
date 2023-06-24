@@ -38,7 +38,7 @@ function NewPost() {
   const onSubmit = (data) => {
     // Post data to the route for posts
     axios
-      .post("http://localhost:3001/posts", data, {
+      .post("https://TimeTrekker.onrender.com/posts", data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((response) => {

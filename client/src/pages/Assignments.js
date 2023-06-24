@@ -29,7 +29,7 @@ function Assignments() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/assignments`).then((response) => {
+    axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
       setListOfAssignments(response.data);
       //console.log(response.data[0].title);
     });
@@ -37,18 +37,18 @@ function Assignments() {
 
   useEffect(() => {
     if (filter === "all") {
-      axios.get(`http://localhost:3001/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
         setListOfAssignments(response.data);
       });
     } else if (filter === "recurring") {
-      axios.get(`http://localhost:3001/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === true
         );
         setListOfAssignments(filtered);
       });
     } else if (filter === "nonrecurring") {
-      axios.get(`http://localhost:3001/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === false
         );
@@ -56,7 +56,7 @@ function Assignments() {
       });
     } else {
       // By deadline
-      axios.get(`http://localhost:3001/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
         const filtered = response.data.sort((a, b) =>
           a.deadline > b.deadline ? 1 : -1
         );
@@ -78,7 +78,7 @@ function Assignments() {
     if (option === "title") {
       let newTitle = prompt("Enter new title");
       axios
-        .put("http://localhost:3001/assignments/title", {
+        .put("https://TimeTrekker.onrender.com/assignments/title", {
           title: newTitle,
           id: id,
         })
@@ -91,7 +91,7 @@ function Assignments() {
     } else if (option === "description") {
       let newDesc = prompt("Enter new description");
       axios
-        .put("http://localhost:3001/assignments/desc", {
+        .put("https://TimeTrekker.onrender.com/assignments/desc", {
           description: newDesc,
           id: id,
         })
@@ -104,7 +104,7 @@ function Assignments() {
     } else {
       let newDeadline = prompt("Enter new deadline (YYYY-MM-DD)");
       axios
-        .put("http://localhost:3001/assignments/deadline", {
+        .put("https://TimeTrekker.onrender.com/assignments/deadline", {
           deadline: newDeadline,
           id: id,
         })
@@ -124,7 +124,7 @@ function Assignments() {
     );
     // change the completed status
     axios
-      .put("http://localhost:3001/assignments/completed", {
+      .put("https://TimeTrekker.onrender.com/assignments/completed", {
         id: id,
         completed: !assignment.completed,
       })
@@ -162,7 +162,7 @@ function Assignments() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3001/assignments/${id}`).then((response) => {
+    axios.delete(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
       setListOfAssignments(
         listOfAssignments.filter((val) => {
           return val.id !== id;
@@ -184,7 +184,7 @@ function Assignments() {
   };
 
   const handleResetRecurringClick = () => {
-    axios.put("http://localhost:3001/assignments/resetRecurring").then((response) => {
+    axios.put("https://TimeTrekker.onrender.com/assignments/resetRecurring").then((response) => {
         setListOfAssignments(response.data);
     });
   };

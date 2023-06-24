@@ -38,7 +38,7 @@ function NewAssignment(props) {
       data.deadline = null;
     }
     axios
-      .post("http://localhost:3001/assignments", {
+      .post("https://TimeTrekker.onrender.com/assignments", {
         ...data,
         completed: false,
         UserId: id,

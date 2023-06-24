@@ -52,7 +52,7 @@ function Login() {
     // Data containing username and password
     const data = { username: username, password: password };
     // Send data to the route for user login
-    axios.post("http://localhost:3001/auth/login", data).then((response) => {
+    axios.post("https://TimeTrekker.onrender.com/auth/login", data).then((response) => {
       if (response.data.error) {
         alert(response.data.error);
       } else {

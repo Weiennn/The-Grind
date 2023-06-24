@@ -52,9 +52,9 @@ function Registration() {
   // What happens when the submit button is clicked
   const onSubmit = (data) => {
     // Post data to the route for users
-    axios.post("http://localhost:3001/auth", data).then(() => {
+    axios.post("https://TimeTrekker.onrender.com/auth", data).then(() => {
       // Send data to the route for user login
-      axios.post("http://localhost:3001/auth/login", data).then((response) => {
+      axios.post("https://TimeTrekker.onrender.com/auth/login", data).then((response) => {
         if (response.data.error) {
           alert(response.data.error);
         } else {
