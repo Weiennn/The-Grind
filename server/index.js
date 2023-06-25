@@ -9,7 +9,7 @@ dotenv.config()
 const app = express();
 const port = process.env.PORT || 3001
 
-const buildPath = path.join('client', 'build');
+const buildPath = path.join(__dirname, '../client', 'build');
 
 // Parses incoming JSON requests and puts parsed data in req.body
 app.use(express.json());
