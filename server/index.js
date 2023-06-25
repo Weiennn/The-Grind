@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path')
@@ -42,6 +44,3 @@ db.sequelize.sync().then(() => {
         console.log("Works")
     });
 })
-
-
-
