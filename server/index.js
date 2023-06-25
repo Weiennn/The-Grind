@@ -21,10 +21,6 @@ app.use(express.static(buildPath))
 // Goes over all tables created in the models folder
 const db = require('./models');
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'))
-})
-
 // Routers
 const postRouter = require('./routes/Posts');
 app.use("/posts", postRouter);
@@ -34,6 +30,10 @@ const usersRouter = require('./routes/Users');
 app.use("/auth", usersRouter);
 const assignmentsRouter = require('./routes/Assignments');
 app.use("/assignments/", assignmentsRouter);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'))
+})
 
 // Go over all tables in models folder
 db.sequelize.sync().then(() => {
