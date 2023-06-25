@@ -28,7 +28,7 @@ router.post("/", validateToken, async (req, res) => {
     // Create a variable set to the username obtained from AuthMiddleware.js
     const username = req.user.username;
     // Set the post's username
-    post.username = username; 
+    post.username = username;
     // Add data to the database
     await Posts.create(post);
     // Return response in json format

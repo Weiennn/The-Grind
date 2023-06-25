@@ -38,6 +38,12 @@ function Post() {
 
   // Function to add a comment
   const addComment = () => {
+    let accessToken;
+    if (authState.stay) {
+      accessToken = localStorage.getItem("accessToken")
+    } else {
+      accessToken = sessionStorage.getItem("accessToken")
+    }
     // Posting the comment into the comments route
     axios
       .post(
@@ -46,7 +52,7 @@ function Post() {
         {
           headers: {
             // Obtain token from local storage
-            accessToken: localStorage.getItem("accessToken"),
+            accessToken: accessToken,
           },
         }
       )

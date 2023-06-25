@@ -36,10 +36,16 @@ function NewPost() {
 
   // What happens when the submit button is clicked
   const onSubmit = (data) => {
+    let accessToken;
+    if (authState.stay) {
+      accessToken = localStorage.getItem("accessToken")
+    } else {
+      accessToken = sessionStorage.getItem("accessToken")
+    }
     // Post data to the route for posts
     axios
       .post("https://TimeTrekker.onrender.com/posts", data, {
-        headers: { accessToken: localStorage.getItem("accessToken") },
+        headers: { accessToken: accessToken },
       })
       .then((response) => {
         // Navigate to another page after posting

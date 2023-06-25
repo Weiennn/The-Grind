@@ -31,7 +31,8 @@ function Assignments() {
   useEffect(() => {
     axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
       setListOfAssignments(response.data);
-      //console.log(response.data[0].title);
+      // future dev testing
+      // http://localhost:3001
     });
   }, []);
 
