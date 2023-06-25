@@ -1,11 +1,9 @@
-#!/usr/bin/env node
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path')
-//const dotenv = require('dotenv')
+const dotenv = require('dotenv')
 //const cookieParser = require("cookie-parser");
-//dotenv.config()
+dotenv.config()
 
 // Variable to make API requests and initialise server
 const app = express();
