@@ -31,12 +31,13 @@ function Assignments() {
   useEffect(() => {
     if (!authState.status) {
       navigate("/login");
-    }
-    axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
+    } else {
+      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
       setListOfAssignments(response.data);
       // future dev testing
       // http://localhost:3001
     });
+    }
   }, []);
 
   useEffect(() => {
