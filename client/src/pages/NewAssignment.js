@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useContext, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -20,6 +20,12 @@ function NewAssignment(props) {
   const theme = useTheme();
 
   const [selectedDate, setSelectedDate] = React.useState(null);
+
+  useEffect(() => {
+    if (!authState.status) {
+      navigate("/login");
+    }
+  }, []);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);

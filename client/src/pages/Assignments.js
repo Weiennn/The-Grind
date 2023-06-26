@@ -29,6 +29,9 @@ function Assignments() {
   let navigate = useNavigate();
 
   useEffect(() => {
+    if (!authState.status) {
+      navigate("/login");
+    }
     axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
       setListOfAssignments(response.data);
       // future dev testing
