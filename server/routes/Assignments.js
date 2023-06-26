@@ -6,21 +6,13 @@ const { Assignments } = require("../models");
 
 // Get assignments related to a specific user
 router.get("/:userId", async (req, res) => {
-  // Create a variable set to the userId param in the URL
   const userId = req.params.userId;
-  // Get all assignments where userId is equal to the userId we are finding
-  const assignments = await Assignments.findAll({ where: { UserId: userId } });
-  // Return response in json format
-  res.json(assignments);
-});
-
-router.get("/", async (req, res) => {
   // Create a variable set to all assignments in the table
   const notCompletedListOfAssignments = await Assignments.findAll({
-    where: { completed: false },
+    where: { completed: false, UserId: userId },
   });
   const completedListOfAssignments = await Assignments.findAll({
-    where: { completed: true },
+    where: { completed: true, UserId: userId },
   });
   const listOfAssignments = [
     ...notCompletedListOfAssignments,

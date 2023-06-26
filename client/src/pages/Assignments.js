@@ -25,6 +25,7 @@ function Assignments() {
   const [listOfAssignments, setListOfAssignments] = useState([]);
   const [filter, setFilter] = useState("all");
   const { authState } = useContext(AuthContext);
+  const id = authState.id;
   const theme = useTheme();
   let navigate = useNavigate();
 
@@ -32,7 +33,7 @@ function Assignments() {
     if (!authState.status) {
       navigate("/login");
     } else {
-      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
       setListOfAssignments(response.data);
       // future dev testing
       // http://localhost:3001
@@ -42,18 +43,18 @@ function Assignments() {
 
   useEffect(() => {
     if (filter === "all") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
         setListOfAssignments(response.data);
       });
     } else if (filter === "recurring") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === true
         );
         setListOfAssignments(filtered);
       });
     } else if (filter === "nonrecurring") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === false
         );
@@ -61,7 +62,7 @@ function Assignments() {
       });
     } else {
       // By deadline
-      axios.get(`https://TimeTrekker.onrender.com/assignments`).then((response) => {
+      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
         const filtered = response.data.sort((a, b) =>
           a.deadline > b.deadline ? 1 : -1
         );
