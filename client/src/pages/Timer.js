@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Typography,
   Button,
@@ -10,8 +10,9 @@ import {
   Slider,
   Divider,
 } from "@mui/material";
+import { AuthContext } from "../helper/AuthContext";
 import { useTheme } from "@mui/material/styles";
-
+import { useNavigate } from "react-router-dom";
 
 const PomodoroTimer = () => {
   const [minutes, setMinutes] = useState(25);
@@ -21,43 +22,55 @@ const PomodoroTimer = () => {
   const [sliderDuration, setSliderDuration] = useState(25);
   const [workTimerDuration, setWorkTimerDuration] = useState(25);
   const [breakTimerDuration, setBreakTimerDuration] = useState(5);
-
+  const { authState } = useContext(AuthContext);
+  let navigate = useNavigate();
   let theme = useTheme();
 
   useEffect(() => {
-    let interval = null;
+    if (!authState.status) {
+      navigate("/login");
+    } else {
+      let interval = null;
 
-    if (isActive) {
-      interval = setInterval(() => {
-        if (seconds > 0) {
-          setSeconds(seconds - 1);
-        } else {
-          if (minutes === 0) {
-            // Timer has reached 0
-            clearInterval(interval);
-            setIsActive(false);
-            // Switch between work and break session
-            if (sessionType === "work") {
-              setSessionType("break");
-              setMinutes(breakTimerDuration);
-              setSliderDuration(breakTimerDuration)
-              setSeconds(0);
-            } else {
-              setSessionType("work");
-              setMinutes(workTimerDuration);
-              setSliderDuration(workTimerDuration);
-              setSeconds(0);
-            }
+      if (isActive) {
+        interval = setInterval(() => {
+          if (seconds > 0) {
+            setSeconds(seconds - 1);
           } else {
-            setMinutes(minutes - 1);
-            setSeconds(59);
+            if (minutes === 0) {
+              // Timer has reached 0
+              clearInterval(interval);
+              setIsActive(false);
+              // Switch between work and break session
+              if (sessionType === "work") {
+                setSessionType("break");
+                setMinutes(breakTimerDuration);
+                setSliderDuration(breakTimerDuration);
+                setSeconds(0);
+              } else {
+                setSessionType("work");
+                setMinutes(workTimerDuration);
+                setSliderDuration(workTimerDuration);
+                setSeconds(0);
+              }
+            } else {
+              setMinutes(minutes - 1);
+              setSeconds(59);
+            }
           }
-        }
-      }, 1000);
+        }, 1000);
+      }
+      return () => clearInterval(interval);
     }
-
-    return () => clearInterval(interval);
-  }, [isActive, minutes, seconds, sessionType, sliderDuration, workTimerDuration, breakTimerDuration]);
+  }, [
+    isActive,
+    minutes,
+    seconds,
+    sessionType,
+    sliderDuration,
+    workTimerDuration,
+    breakTimerDuration,
+  ]);
 
   const handleToggle = () => {
     setIsActive(!isActive);
@@ -75,11 +88,11 @@ const PomodoroTimer = () => {
     if (sessionType === "work") {
       setWorkTimerDuration(value);
       setSliderDuration(workTimerDuration);
-      setMinutes(workTimerDuration)
+      setMinutes(workTimerDuration);
     } else {
       setBreakTimerDuration(value);
       setSliderDuration(breakTimerDuration);
-      setMinutes(breakTimerDuration)
+      setMinutes(breakTimerDuration);
     }
     setSeconds(0);
   };
@@ -99,8 +112,8 @@ const PomodoroTimer = () => {
       <Typography variant="h4" color="primary" sx={{ mb: 1 }}>
         Pomodoro Timer
       </Typography>
-      <Divider sx={{ width: "100%", mb: 2, }} />
-      <Typography variant="h2" align="center" sx={{ mb:2 }}>
+      <Divider sx={{ width: "100%", mb: 2 }} />
+      <Typography variant="h2" align="center" sx={{ mb: 2 }}>
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}
       </Typography>

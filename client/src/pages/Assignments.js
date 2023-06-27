@@ -28,6 +28,7 @@ function Assignments() {
   const id = authState.id;
   const theme = useTheme();
   let navigate = useNavigate();
+  const moment = require("moment");
 
   useEffect(() => {
     if (!authState.status) {
@@ -68,9 +69,24 @@ function Assignments() {
       // By deadline
       axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
         // https://TimeTrekker.onrender.com/assignments/${id}
-        const filtered = response.data.sort((a, b) =>
-          a.deadline > b.deadline ? 1 : -1
-        );
+        const filtered = response.data.sort((a, b) => {
+          const deadlineA = a.deadline
+            ? moment(a.deadline, "DD.MM.YYYY")
+            : null;
+          const deadlineB = b.deadline
+            ? moment(b.deadline, "DD.MM.YYYY")
+            : null;
+          if (deadlineA === null && deadlineB === null) {
+            return 0; // If both deadlines are null, maintain the current order
+          }
+          if (deadlineA === null) {
+            return 1; // If only deadlineA is null, move it to the end
+          }
+          if (deadlineB === null) {
+            return -1; // If only deadlineB is null, move it to the end
+          }
+          return deadlineA.diff(deadlineB); // Sort by ascending order of dates
+        });
         const filter1 = response.data.filter(
           (assignment) =>
             assignment.deadline === null ||

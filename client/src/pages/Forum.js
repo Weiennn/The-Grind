@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../helper/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -10,16 +11,21 @@ import { useTheme } from "@emotion/react";
 
 function Forum() {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const { authState } = useContext(AuthContext);
   let navigate = useNavigate();
   let theme = useTheme();
 
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
+    if (!authState.status) {
+      navigate("/login");
+    } else {
+      axios.get("http://localhost:3001/posts").then((response) => {
+        // https://TimeTrekker.onrender.com/posts
+        setListOfPosts(response.data);
+      });
+    }
     // Get data from the route for posts
-    axios.get("http://localhost:3001/posts").then((response) => {
-      // https://TimeTrekker.onrender.com/posts
-      setListOfPosts(response.data);
-    });
   }, []);
   return (
     <Stack
@@ -39,7 +45,7 @@ function Forum() {
             onClick={() => {
               navigate(`/post/${value.id}`);
             }}
-            sx={{ width: "50%", }}
+            sx={{ width: "50%" }}
           >
             <Box
               component="div"
