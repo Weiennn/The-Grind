@@ -44,7 +44,8 @@ function NewPost() {
     }
     // Post data to the route for posts
     axios
-      .post("https://TimeTrekker.onrender.com/posts", data, {
+      .post("http://localhost:3001/posts", data, {
+        //https://TimeTrekker.onrender.com/posts
         headers: { accessToken: accessToken },
       })
       .then((response) => {

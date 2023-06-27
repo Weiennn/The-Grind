@@ -33,28 +33,32 @@ function Assignments() {
     if (!authState.status) {
       navigate("/login");
     } else {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
-      setListOfAssignments(response.data);
-      // future dev testing
-      // http://localhost:3001
-    });
+      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
+        setListOfAssignments(response.data);
+        // future dev testing
+        //
+        // https://TimeTrekker.onrender.com/assignments/${id}
+      });
     }
   }, []);
 
   useEffect(() => {
     if (filter === "all") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
+        // https://TimeTrekker.onrender.com/assignments/${id}
         setListOfAssignments(response.data);
       });
     } else if (filter === "recurring") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
+        // https://TimeTrekker.onrender.com/assignments/${id}
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === true
         );
         setListOfAssignments(filtered);
       });
     } else if (filter === "nonrecurring") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
+        // https://TimeTrekker.onrender.com/assignments/${id}
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === false
         );
@@ -62,7 +66,8 @@ function Assignments() {
       });
     } else {
       // By deadline
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
+        // https://TimeTrekker.onrender.com/assignments/${id}
         const filtered = response.data.sort((a, b) =>
           a.deadline > b.deadline ? 1 : -1
         );
@@ -84,7 +89,8 @@ function Assignments() {
     if (option === "title") {
       let newTitle = prompt("Enter new title");
       axios
-        .put("https://TimeTrekker.onrender.com/assignments/title", {
+        .put("http://localhost:3001/assignments/title", {
+          // https://TimeTrekker.onrender.com/assignments/title
           title: newTitle,
           id: id,
         })
@@ -97,7 +103,8 @@ function Assignments() {
     } else if (option === "description") {
       let newDesc = prompt("Enter new description");
       axios
-        .put("https://TimeTrekker.onrender.com/assignments/desc", {
+        .put("http://localhost:3001/assignments/desc", {
+          // https://TimeTrekker.onrender.com/assignments/desc
           description: newDesc,
           id: id,
         })
@@ -110,7 +117,8 @@ function Assignments() {
     } else {
       let newDeadline = prompt("Enter new deadline (YYYY-MM-DD)");
       axios
-        .put("https://TimeTrekker.onrender.com/assignments/deadline", {
+        .put("http://localhost:3001/assignments/deadline", {
+          // https://TimeTrekker.onrender.com/assignments/deadline
           deadline: newDeadline,
           id: id,
         })
@@ -130,7 +138,8 @@ function Assignments() {
     );
     // change the completed status
     axios
-      .put("https://TimeTrekker.onrender.com/assignments/completed", {
+      .put("http://localhost:3001/assignments/completed", {
+        // https://TimeTrekker.onrender.com/assignments/completed
         id: id,
         completed: !assignment.completed,
       })
@@ -149,7 +158,8 @@ function Assignments() {
               })
             );
           }, 300);
-        } else { // deleted
+        } else {
+          // deleted
           const temp = [...listOfAssignments];
           temp[key] = {
             ...listOfAssignments[key],
@@ -168,7 +178,8 @@ function Assignments() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+    axios.delete(`http://localhost:3001/assignments/${id}`).then((response) => {
+      // https://TimeTrekker.onrender.com/assignments/${id}
       setListOfAssignments(
         listOfAssignments.filter((val) => {
           return val.id !== id;
@@ -190,9 +201,12 @@ function Assignments() {
   };
 
   const handleResetRecurringClick = () => {
-    axios.put("https://TimeTrekker.onrender.com/assignments/resetRecurring").then((response) => {
+    axios
+      .put(`http://localhost:3001/assignments/resetRecurring/${id}`)
+      .then((response) => {
+        // https://TimeTrekker.onrender.com/assignments/resetRecurring
         setListOfAssignments(response.data);
-    });
+      });
   };
 
   return (
@@ -336,26 +350,6 @@ function Assignments() {
       </Stack>
     </Box>
   );
-
-  //     return (
-  //         <Box sx={{display: "flex", flexDirection: "column", width: "100vh"}}>
-  //             <Typography variant="h4" component="h4">
-  //                 Assignments
-  //             </Typography>
-  //             <Divider />
-  //             <Stack>
-  //             {listOfAssignments.map((value, key) => {
-  //                 return (
-  //                     <Card elevation={3} sx={{ margin: 1, mt: 1, mb: 2,}}>
-  //                         <div className="title" onClick={ () => { edit("title", value.id, key) } }> {value.title} </div>
-  //                         <div className="description" onClick={ () => { edit("description", value.id, key) } }> {value.description} </div>
-  //                         <div className="deadline" onClick={ () => { edit("deadline", value.id, key) } }> {value.deadline} </div>
-  //                     </Card>
-  //                 )
-  //             })}
-  //             </Stack>
-  //         </Box>
-  //   )
 }
 
 export default Assignments;

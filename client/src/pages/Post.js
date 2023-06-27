@@ -27,11 +27,13 @@ function Post() {
 
   useEffect(() => {
     // Get post data from the posts route and set the post state to it
-    axios.get(`https://TimeTrekker.onrender.com/posts/byId/${id}`).then((response) => {
+    axios.get(`http://localhost:3001/posts/byId/${id}`).then((response) => {
+      // https://TimeTrekker.onrender.com/posts/byId/${id}
       setPostObject(response.data);
     });
     // Get comment data from the comments route and set the comment state to it
-    axios.get(`https://TimeTrekker.onrender.com/comments/${id}`).then((response) => {
+    axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
+      // https://TimeTrekker.onrender.com/comments/${id}
       setComments(response.data);
     });
   }, []);
@@ -47,7 +49,8 @@ function Post() {
     // Posting the comment into the comments route
     axios
       .post(
-        "https://TimeTrekker.onrender.com/comments",
+        "http://localhost:3001/comments",
+        // https://TimeTrekker.onrender.com/comments
         { commentBody: newComment, PostId: id },
         {
           headers: {
@@ -77,7 +80,8 @@ function Post() {
   const deleteComment = (id) => {
     // Delete the comment from the comments route
     axios
-      .delete(`https://TimeTrekker.onrender.com/comments/${id}`, {
+      .delete(`http://localhost:3001/comments/${id}`, {
+        // https://TimeTrekker.onrender.com/comments/${id}
         headers: {
           // Obtain token from local storage
           accessToken: localStorage.getItem("accessToken"),

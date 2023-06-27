@@ -92,8 +92,11 @@ router.put("/completed", async (req, res) => {
   }
 });
 
-router.put("/resetRecurring", async (req, res) => {
-  const listOfAssignments = await Assignments.findAll();
+router.put("/resetRecurring/:userId", async (req, res) => {
+    const userId = req.params.userId;
+  const listOfAssignments = await Assignments.findAll(
+    { where: { UserId: userId } }
+  );
   const filteredList = listOfAssignments.filter(
     (assignment) => assignment.recurring === true
   );
@@ -105,7 +108,9 @@ router.put("/resetRecurring", async (req, res) => {
       );
     })
   );
-  const newListOfAssignments = await Assignments.findAll();
+  const newListOfAssignments = await Assignments.findAll(
+    { where: { UserId: userId } }
+  );
   res.json(newListOfAssignments);
 });
 

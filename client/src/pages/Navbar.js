@@ -116,7 +116,8 @@ export default function PersistentDrawerLeft() {
     }
     // Check if user has a valid token
     axios
-      .get("https://TimeTrekker.onrender.com/auth/auth", {
+      .get("http://localhost:3001/auth/auth", {
+        // https://TimeTrekker.onrender.com/auth/auth
         headers: {
           accessToken: accessToken,
         },

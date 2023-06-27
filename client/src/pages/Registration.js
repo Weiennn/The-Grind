@@ -52,25 +52,29 @@ function Registration() {
   // What happens when the submit button is clicked
   const onSubmit = (data) => {
     // Post data to the route for users
-    axios.post("https://TimeTrekker.onrender.com/auth", data).then(() => {
+    axios.post("http://localhost:3001/auth", data).then(() => {
+      // https://TimeTrekker.onrender.com/auth
       // Send data to the route for user login
-      axios.post("https://TimeTrekker.onrender.com/auth/login", data).then((response) => {
-        if (response.data.error) {
-          alert(response.data.error);
-        } else {
-          // Set accessToken inside localStorage
-          sessionStorage.setItem("accessToken", response.data.token);
-          // When logging in, set status to be true to signify being logged in and obtain the username as well as id
-          setAuthState({
-            username: response.data.username,
-            id: response.data.id,
-            status: true,
-            stay: false,
-          });
-          // Change to home page
-          navigate("/");
-        }
-      });
+      axios
+        .post("http://localhost:3001/auth/login", data)
+        // https://TimeTrekker.onrender.com/auth/login
+        .then((response) => {
+          if (response.data.error) {
+            alert(response.data.error);
+          } else {
+            // Set accessToken inside localStorage
+            sessionStorage.setItem("accessToken", response.data.token);
+            // When logging in, set status to be true to signify being logged in and obtain the username as well as id
+            setAuthState({
+              username: response.data.username,
+              id: response.data.id,
+              status: true,
+              stay: false,
+            });
+            // Change to home page
+            navigate("/");
+          }
+        });
     });
   };
 
