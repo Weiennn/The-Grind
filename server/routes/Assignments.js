@@ -5,7 +5,6 @@ const router = express.Router();
 // Get Assignments model from the models folder
 const { Assignments } = require("../models");
 
-
 // Get assignments related to a specific user
 router.get("/:userId", async (req, res) => {
   const userId = req.params.userId;
@@ -23,35 +22,49 @@ router.get("/:userId", async (req, res) => {
         assignment.frequency === "Weekly" &&
         assignment.deadline < currentDate
       ) {
-        Assignments.update(
-            { deadline: moment(assignment.deadline).add(1, "weeks"), completed: false },
+        while (assignment.deadline < currentDate) {
+          Assignments.update(
+            {
+              deadline: moment(assignment.deadline).add(1, "weeks"),
+              completed: false,
+            },
             { where: { id: assignment.id } }
-            );
+          );
+        }
       } else if (
         assignment.frequency === "Biweekly" &&
         assignment.deadline < currentDate
       ) {
-        Assignments.update(
-            { deadline: moment(assignment.deadline).add(2, "weeks"), completed: false },
+        while (assignment.deadline < currentDate) {
+          Assignments.update(
+            {
+              deadline: moment(assignment.deadline).add(2, "weeks"),
+              completed: false,
+            },
             { where: { id: assignment.id } }
-            );
+          );
+        }
       } else if (
         assignment.frequency === "Monthly" &&
         assignment.deadline < currentDate
       ) {
-        Assignments.update(
-            { deadline: moment(assignment.deadline).add(1, "months"), completed: false },
+        while (assignment.deadline < currentDate) {
+          Assignments.update(
+            {
+              deadline: moment(assignment.deadline).add(1, "months"),
+              completed: false,
+            },
             { where: { id: assignment.id } }
-            );
+          );
+        }
       }
     }
   });
   const nonCompletedListOfAssignments = await Assignments.findAll({
     where: { completed: false, UserId: userId },
-    });
-    
-  res.json(nonCompletedListOfAssignments);
+  });
 
+  res.json(nonCompletedListOfAssignments);
 });
 
 /*
