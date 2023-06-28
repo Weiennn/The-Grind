@@ -1,26 +1,57 @@
 const express = require("express");
+const moment = require("moment");
 const router = express.Router();
 
 // Get Assignments model from the models folder
 const { Assignments } = require("../models");
 
+
 // Get assignments related to a specific user
 router.get("/:userId", async (req, res) => {
   const userId = req.params.userId;
-  // Create a variable set to all assignments in the table
-  const notCompletedListOfAssignments = await Assignments.findAll({
+  const currentDate = moment().format("YYYY.MM.DD");
+  const listOfAssignments = await Assignments.findAll({
+    where: { UserId: userId },
+  });
+  //set all the new deadlines depending on frequency
+  listOfAssignments.forEach((assignment) => {
+    if (assignment.deadline != null || assignment.frequency != "None") {
+      const tmp = moment(assignment.deadline, "YYYY.MM.DD").format(
+        "YYYY.MM.DD"
+      );
+      if (
+        assignment.frequency === "Weekly" &&
+        assignment.deadline < currentDate
+      ) {
+        Assignments.update(
+            { deadline: moment(assignment.deadline).add(1, "weeks"), completed: false },
+            { where: { id: assignment.id } }
+            );
+      } else if (
+        assignment.frequency === "Biweekly" &&
+        assignment.deadline < currentDate
+      ) {
+        Assignments.update(
+            { deadline: moment(assignment.deadline).add(2, "weeks"), completed: false },
+            { where: { id: assignment.id } }
+            );
+      } else if (
+        assignment.frequency === "Monthly" &&
+        assignment.deadline < currentDate
+      ) {
+        Assignments.update(
+            { deadline: moment(assignment.deadline).add(1, "months"), completed: false },
+            { where: { id: assignment.id } }
+            );
+      }
+    }
+  });
+  const nonCompletedListOfAssignments = await Assignments.findAll({
     where: { completed: false, UserId: userId },
-  });
-  const completedListOfAssignments = await Assignments.findAll({
-    where: { completed: true, UserId: userId },
-  });
-  const listOfAssignments = [
-    ...notCompletedListOfAssignments,
-    ...completedListOfAssignments,
-  ];
+    });
+    
+  res.json(nonCompletedListOfAssignments);
 
-  // Return response in json format
-  res.json(listOfAssignments);
 });
 
 /*
@@ -93,10 +124,10 @@ router.put("/completed", async (req, res) => {
 });
 
 router.put("/resetRecurring/:userId", async (req, res) => {
-    const userId = req.params.userId;
-  const listOfAssignments = await Assignments.findAll(
-    { where: { UserId: userId } }
-  );
+  const userId = req.params.userId;
+  const listOfAssignments = await Assignments.findAll({
+    where: { UserId: userId },
+  });
   const filteredList = listOfAssignments.filter(
     (assignment) => assignment.recurring === true
   );
@@ -108,9 +139,9 @@ router.put("/resetRecurring/:userId", async (req, res) => {
       );
     })
   );
-  const newListOfAssignments = await Assignments.findAll(
-    { where: { UserId: userId } }
-  );
+  const newListOfAssignments = await Assignments.findAll({
+    where: { UserId: userId },
+  });
   res.json(newListOfAssignments);
 });
 

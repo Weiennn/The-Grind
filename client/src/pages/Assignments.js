@@ -20,6 +20,7 @@ import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import moment from "moment";
 
 function Assignments() {
   const [listOfAssignments, setListOfAssignments] = useState([]);
@@ -28,7 +29,7 @@ function Assignments() {
   const id = authState.id;
   const theme = useTheme();
   let navigate = useNavigate();
-  const moment = require("moment");
+
 
   useEffect(() => {
     if (!authState.status) {
@@ -44,56 +45,63 @@ function Assignments() {
   }, []);
 
   useEffect(() => {
+    const listOfAssignments = axios.get(
+      `http://localhost:3001/assignments/${id}`
+    );
+    const formatAndSetAssignments = (lis) => {
+        lis.forEach((assignment) => {
+            if (assignment.deadline) {
+                assignment.deadline = moment(
+                    assignment.deadline,
+                    "YYYY.MM.DD"
+                ).format("DD.MM.YYYY");
+            }
+        });
+        setListOfAssignments(lis);
+    };
+
+    // https://TimeTrekker.onrender.com/assignments/${id}
     if (filter === "all") {
-      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
-        // https://TimeTrekker.onrender.com/assignments/${id}
-        setListOfAssignments(response.data);
+      listOfAssignments.then((response) => {
+        const filtered = response.data;
+        formatAndSetAssignments(filtered);
       });
     } else if (filter === "recurring") {
-      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
-        // https://TimeTrekker.onrender.com/assignments/${id}
+      listOfAssignments.then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === true
         );
-        setListOfAssignments(filtered);
+        formatAndSetAssignments(filtered);
       });
     } else if (filter === "nonrecurring") {
-      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
-        // https://TimeTrekker.onrender.com/assignments/${id}
+      listOfAssignments.then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === false
         );
-        setListOfAssignments(filtered);
+        formatAndSetAssignments(filtered);
       });
     } else {
       // By deadline
-      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
-        // https://TimeTrekker.onrender.com/assignments/${id}
+      listOfAssignments.then((response) => {
         const filtered = response.data.sort((a, b) => {
           const deadlineA = a.deadline
-            ? moment(a.deadline, "DD.MM.YYYY")
+            ? moment(a.deadline, "YYYY.MM.DD")
             : null;
           const deadlineB = b.deadline
-            ? moment(b.deadline, "DD.MM.YYYY")
+            ? moment(b.deadline, "YYYY.MM.DD")
             : null;
           if (deadlineA === null && deadlineB === null) {
             return 0; // If both deadlines are null, maintain the current order
           }
           if (deadlineA === null) {
-            return 1; // If only deadlineA is null, move it to the end
+            return -1; // If only deadlineA is null, move it to the end
           }
           if (deadlineB === null) {
             return -1; // If only deadlineB is null, move it to the end
           }
           return deadlineA.diff(deadlineB); // Sort by ascending order of dates
         });
-        const filter1 = response.data.filter(
-          (assignment) =>
-            assignment.deadline === null ||
-            assignment.deadline === "Invalid Date"
-        );
-        const final = [...filtered, ...filter1];
-        setListOfAssignments(final);
+        formatAndSetAssignments(filtered);
       });
     }
   }, [filter]);
@@ -329,7 +337,7 @@ function Assignments() {
                   component="div"
                   sx={{ color: theme.palette.primary.main, marginLeft: 1 }}
                 >
-                  Recurring Task
+                  Recurring {value.frequency == "None" ? null : value.frequency } Task
                 </Typography>
               </Box>
             )}

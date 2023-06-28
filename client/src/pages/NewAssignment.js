@@ -4,8 +4,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../helper/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Switch from "@mui/material/Switch";
 import Box from "@mui/material/Box";
@@ -14,6 +12,8 @@ import { Typography, Button, FormControlLabel, Container } from "@mui/material";
 import { TextField } from "formik-material-ui";
 import { Snackbar, IconButton } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import moment from "moment";
 
 function NewAssignment(props) {
   const { authState } = useContext(AuthContext);
@@ -26,6 +26,8 @@ function NewAssignment(props) {
     useState("");
   const [showAssignmentCreationMessage, setShowAssignmentCreationMessage] =
     useState(false);
+  const [recurringState, setRecurringState] = useState(false);
+  const [deadlineLabel, setDeadlineLabel] = useState("Deadline");
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +35,14 @@ function NewAssignment(props) {
       navigate("/login");
     }
   }, []);
+
+  useEffect(() => {
+    if (recurringState) {
+      setDeadlineLabel("Start Date");
+    } else {
+      setDeadlineLabel("Deadline");
+    }
+  }, [recurringState]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -43,6 +53,7 @@ function NewAssignment(props) {
     description: "",
     deadline: null,
     recurring: false,
+    frequency: null,
   };
 
   const onSubmit = (data) => {
@@ -58,7 +69,6 @@ function NewAssignment(props) {
         UserId: id,
       })
       .then((response) => {
-        console.log(response);
         setAssignmentCreationMessage(
           `Assignment ${response.data.title} created successfully!`
         );
@@ -96,6 +106,7 @@ function NewAssignment(props) {
             onSubmit(values);
             resetForm();
             setSelectedDate(null);
+            setRecurringState(false);
           }}
           validationSchema={validationSchema}
         >
@@ -115,7 +126,7 @@ function NewAssignment(props) {
               variant="outlined"
             />
             <DatePicker
-              label="Deadline"
+              label={deadlineLabel}
               value={selectedDate}
               onChange={handleDateChange}
               sx={{
@@ -129,7 +140,13 @@ function NewAssignment(props) {
               fullWidth
               PopperProps={{ style: { width: "100%" } }}
             />
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Box>
                 <Typography
                   variant="body3"
@@ -140,6 +157,9 @@ function NewAssignment(props) {
                 <Field name="recurring">
                   {({ field }) => (
                     <Switch
+                      onClick={(event) => {
+                        setRecurringState(event.target.checked);
+                      }}
                       id="recurring"
                       {...field}
                       checked={field.value}
@@ -148,7 +168,33 @@ function NewAssignment(props) {
                   )}
                 </Field>
               </Box>
-              <Button type="submit" variant="contained" color="secondary">
+              {recurringState && (
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel id="frequency" size="small">
+                    Frequency
+                  </InputLabel>
+                  <Field
+                    id="frequency"
+                    name="frequency"
+                    as={Select}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    defaultValue={null}
+                  >
+                    <MenuItem value="None">None</MenuItem>
+                    <MenuItem value="Weekly">Weekly</MenuItem>
+                    <MenuItem value="Biweekly">Biweekly</MenuItem>
+                    <MenuItem value="Monthly">Monthly</MenuItem>
+                  </Field>
+                </FormControl>
+              )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="secondary"
+                sx={{ ml: 2 }}
+              >
                 Create Assignment
               </Button>
             </Box>
