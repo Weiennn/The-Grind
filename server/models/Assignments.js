@@ -34,5 +34,20 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  Assignments.associate = (models) => {
+    Assignments.belongsTo(models.Users, {
+        foreignKey: {
+            allowNull: false,
+        },
+    });
+
+    Assignments.belongsTo(models.Sections, {
+        foreignKey: {
+            allowNull: true,
+        },
+    });
+    };
+
+
   return Assignments;
 };

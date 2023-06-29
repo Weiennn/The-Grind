@@ -30,7 +30,6 @@ function Assignments() {
   const theme = useTheme();
   let navigate = useNavigate();
 
-
   useEffect(() => {
     if (!authState.status) {
       navigate("/login");
@@ -49,15 +48,15 @@ function Assignments() {
       `http://localhost:3001/assignments/${id}`
     );
     const formatAndSetAssignments = (lis) => {
-        lis.forEach((assignment) => {
-            if (assignment.deadline) {
-                assignment.deadline = moment(
-                    assignment.deadline,
-                    "YYYY.MM.DD"
-                ).format("DD.MM.YYYY");
-            }
-        });
-        setListOfAssignments(lis);
+      lis.forEach((assignment) => {
+        if (assignment.deadline) {
+          assignment.deadline = moment(
+            assignment.deadline,
+            "YYYY.MM.DD"
+          ).format("DD.MM.YYYY");
+        }
+      });
+      setListOfAssignments(lis);
     };
 
     // https://TimeTrekker.onrender.com/assignments/${id}
@@ -82,27 +81,67 @@ function Assignments() {
       });
     } else {
       // By deadline
-      listOfAssignments.then((response) => {
-        const filtered = response.data.sort((a, b) => {
-          const deadlineA = a.deadline
-            ? moment(a.deadline, "YYYY.MM.DD")
-            : null;
-          const deadlineB = b.deadline
-            ? moment(b.deadline, "YYYY.MM.DD")
-            : null;
-          if (deadlineA === null && deadlineB === null) {
-            return 0; // If both deadlines are null, maintain the current order
-          }
-          if (deadlineA === null) {
-            return -1; // If only deadlineA is null, move it to the end
-          }
-          if (deadlineB === null) {
-            return -1; // If only deadlineB is null, move it to the end
-          }
-          return deadlineA.diff(deadlineB); // Sort by ascending order of dates
+      const haveDeadline = axios
+        .get(`http://localhost:3001/assignments/${id}`)
+        .then((response) => {
+          const filtered = response.data.filter(
+            (assignment) => assignment.deadline !== null && assignment.deadline !== "Invalid date"
+          );
+          return filtered.sort((a, b) => {
+            const deadlineA = moment(a.deadline, "YYYY.MM.DD");
+            const deadlineB = moment(b.deadline, "YYYY.MM.DD");
+            return deadlineA.diff(deadlineB);
+          });
         });
-        formatAndSetAssignments(filtered);
+
+      const noDeadline = listOfAssignments.then((response) => {
+        const filtered = response.data.filter(
+          (assignment) =>
+            assignment.deadline === null ||
+            assignment.deadline === "Invalid date"
+        );
+        return filtered;
       });
+
+        Promise.all([haveDeadline, noDeadline]).then(
+            ([haveDeadlineData, noDeadlineData]) => {
+                const final = [...haveDeadlineData, ...noDeadlineData];
+                formatAndSetAssignments(final);
+            }
+        );
+        
+
+    //   Promise.all([haveDeadline, noDeadline]).then(
+    //     ([haveDeadlineData, noDeadlineData]) => {
+    //       const final = [...haveDeadlineData, ...noDeadlineData];
+    //       formatAndSetAssignments(final);
+    //     }
+    //   );
+
+
+
+      //   haveDeadline.then((response) => {
+      //     const filtered = response.data.sort((a, b) => {
+      //       const deadlineA = a.deadline
+      //         ? moment(a.deadline, "YYYY.MM.DD")
+      //         : null;
+      //       const deadlineB = b.deadline
+      //         ? moment(b.deadline, "YYYY.MM.DD")
+      //         : null;
+      //       if (deadlineA === null && deadlineB === null) {
+      //         return 0; // If both deadlines are null, maintain the current order
+      //       }
+      //       if (deadlineA === null) {
+      //         return -1; // If only deadlineA is null, move it to the end
+      //       }
+      //       if (deadlineB === null) {
+      //         return -1; // If only deadlineB is null, move it to the end
+      //       }
+      //       return deadlineA.diff(deadlineB); // Sort by ascending order of dates
+      //     });
+      //     const final = [...filtered, ...noDeadline];
+      //     formatAndSetAssignments(final);
+      //   });
     }
   }, [filter]);
 
@@ -337,7 +376,8 @@ function Assignments() {
                   component="div"
                   sx={{ color: theme.palette.primary.main, marginLeft: 1 }}
                 >
-                  Recurring {value.frequency == "None" ? null : value.frequency } Task
+                  Recurring {value.frequency == "None" ? null : value.frequency}{" "}
+                  Task
                 </Typography>
               </Box>
             )}

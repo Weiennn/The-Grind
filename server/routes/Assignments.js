@@ -1,5 +1,6 @@
 const express = require("express");
 const moment = require("moment");
+const { validateToken } = require("../middlewares/AuthMiddleware");
 const router = express.Router();
 
 // Get Assignments model from the models folder

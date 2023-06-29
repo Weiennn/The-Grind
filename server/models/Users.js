@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
             // When deleting a user, every timing associated to it gets deleted
             onDelete: 'cascade',
         });
+        Users.hasMany(models.Sections, {
+          onDelete: "cascade",
+        });
     };
 
     return Users;
