@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -52,9 +53,9 @@ function Registration() {
   // What happens when the submit button is clicked
   const onSubmit = (data) => {
     // Post data to the route for users
-    axios.post("https://TimeTrekker.onrender.com/auth", data).then(() => {
+    axios.post(`${APICall}/auth`, data).then(() => {
       // Send data to the route for user login
-      axios.post("https://TimeTrekker.onrender.com/auth/login", data).then((response) => {
+      axios.post(`${APICall}/auth/login`, data).then((response) => {
         if (response.data.error) {
           alert(response.data.error);
         } else {

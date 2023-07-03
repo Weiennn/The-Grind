@@ -5,6 +5,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -52,7 +53,7 @@ function Login() {
     // Data containing username and password
     const data = { username: username, password: password };
     // Send data to the route for user login
-    axios.post("https://TimeTrekker.onrender.com/auth/login", data).then((response) => {
+    axios.post(`${APICall}/auth/login`, data).then((response) => {
       if (response.data.error) {
         alert(response.data.error);
       } else {

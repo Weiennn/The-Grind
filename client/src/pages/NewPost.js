@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import { Typography, Button, } from "@mui/material";
@@ -44,7 +45,7 @@ function NewPost() {
     }
     // Post data to the route for posts
     axios
-      .post("https://TimeTrekker.onrender.com/posts", data, {
+      .post(`${APICall}/posts`, data, {
         headers: { accessToken: accessToken },
       })
       .then((response) => {

@@ -25,6 +25,7 @@ import RestTimer from "./RestTimer";
 import Assignments from "./Assignments";
 import NewAssignment from "./NewAssignment";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Direction, ToggleButton } from "@mui/material";
@@ -116,7 +117,7 @@ export default function PersistentDrawerLeft() {
     }
     // Check if user has a valid token
     axios
-      .get("https://TimeTrekker.onrender.com/auth/auth", {
+      .get(`${APICall}/auth/auth`, {
         headers: {
           accessToken: accessToken,
         },

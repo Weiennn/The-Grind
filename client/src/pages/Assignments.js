@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
@@ -33,30 +34,26 @@ function Assignments() {
     if (!authState.status) {
       navigate("/login");
     } else {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`${APICall}/assignments/${id}`).then((response) => {
       setListOfAssignments(response.data);
-      // future dev testing
-      // http://localhost:3001
-      // Production link
-      // https://TimeTrekker.onrender.com
     });
     }
   }, []);
 
   useEffect(() => {
     if (filter === "all") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`${APICall}/assignments/${id}`).then((response) => {
         setListOfAssignments(response.data);
       });
     } else if (filter === "recurring") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`${APICall}/assignments/${id}`).then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === true
         );
         setListOfAssignments(filtered);
       });
     } else if (filter === "nonrecurring") {
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`${APICall}/assignments/${id}`).then((response) => {
         const filtered = response.data.filter(
           (assignment) => assignment.recurring === false
         );
@@ -64,7 +61,7 @@ function Assignments() {
       });
     } else {
       // By deadline
-      axios.get(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+      axios.get(`${APICall}/assignments/${id}`).then((response) => {
         const filtered = response.data.sort((a, b) =>
           a.deadline > b.deadline ? 1 : -1
         );
@@ -86,7 +83,7 @@ function Assignments() {
     if (option === "title") {
       let newTitle = prompt("Enter new title");
       axios
-        .put("https://TimeTrekker.onrender.com/assignments/title", {
+        .put(`${APICall}/assignments/title`, {
           title: newTitle,
           id: id,
         })
@@ -99,7 +96,7 @@ function Assignments() {
     } else if (option === "description") {
       let newDesc = prompt("Enter new description");
       axios
-        .put("https://TimeTrekker.onrender.com/assignments/desc", {
+        .put(`${APICall}/assignments/desc`, {
           description: newDesc,
           id: id,
         })
@@ -112,7 +109,7 @@ function Assignments() {
     } else {
       let newDeadline = prompt("Enter new deadline (YYYY-MM-DD)");
       axios
-        .put("https://TimeTrekker.onrender.com/assignments/deadline", {
+        .put(`${APICall}/assignments/deadline`, {
           deadline: newDeadline,
           id: id,
         })
@@ -132,7 +129,7 @@ function Assignments() {
     );
     // change the completed status
     axios
-      .put("https://TimeTrekker.onrender.com/assignments/completed", {
+      .put(`${APICall}/assignments/completed`, {
         id: id,
         completed: !assignment.completed,
       })
@@ -170,7 +167,7 @@ function Assignments() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`https://TimeTrekker.onrender.com/assignments/${id}`).then((response) => {
+    axios.delete(`${APICall}/assignments/${id}`).then((response) => {
       setListOfAssignments(
         listOfAssignments.filter((val) => {
           return val.id !== id;
@@ -192,7 +189,7 @@ function Assignments() {
   };
 
   const handleResetRecurringClick = () => {
-    axios.put("https://TimeTrekker.onrender.com/assignments/resetRecurring").then((response) => {
+    axios.put(`${APICall}/assignments/resetRecurring`).then((response) => {
         setListOfAssignments(response.data);
     });
   };

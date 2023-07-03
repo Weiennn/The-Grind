@@ -6,20 +6,60 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useTheme } from "@emotion/react";
+import { APICall } from "../helper/APICall";
+import moment from "moment";
 
 function Forum() {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [sort, setSort] = useState("recent");
+  const [allPosts, setAllPosts] = useState([]);
   let navigate = useNavigate();
   let theme = useTheme();
 
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
     // Get data from the route for posts
-    axios.get("https://TimeTrekker.onrender.com/posts").then((response) => {
+    axios.get(`${APICall}/posts`).then((response) => {
       setListOfPosts(response.data);
+      setAllPosts(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    if (filter === "week" ) {
+      setListOfPosts(allPosts.filter((post) => moment(post.createdAt).isAfter(moment().subtract(7, 'days'))));
+      //console.log(allPosts);
+    } else if (filter === "month") {
+      setListOfPosts(allPosts.filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
+      //console.log(allPosts);
+    } else {
+      setListOfPosts(allPosts);
+    }
+  }, [filter])
+
+  useEffect(() => {
+    if (sort == "recent") {
+      setListOfPosts(listOfPosts.reverse());
+      //console.log(listOfPosts[0])
+    } else if (sort == "old") {
+      setListOfPosts(listOfPosts.reverse());
+      //console.log("wth")
+    }
+  }, [sort]);
+
+  const filterPosts = (event) => {
+    setFilter(event.target.value);
+  }
+  
+  const sortPosts = (event) => {
+    setSort(event.target.value);
+    console.log(sort)
+  }
+
   return (
     <Stack
       direction="column"
@@ -27,7 +67,32 @@ function Forum() {
       alignItems="center"
       spacing={6}
     >
-      {listOfPosts.map((value, key) => {
+      <input type="text" placeholder="Search..." className="search" onChange={(event) => setQuery(event.target.value)}/>
+      <FormControl fullWidth>
+        <InputLabel>Filter:</InputLabel>
+          <Select
+            value={filter}
+            label="Filter"
+            onChange={filterPosts}
+          >
+            <MenuItem value={"all"}>All</MenuItem>
+            <MenuItem value={"week"}>Past Week</MenuItem>
+            <MenuItem value={"month"}>Past Month</MenuItem>
+            <MenuItem value={"friends"}>Friends</MenuItem>
+          </Select>
+      </FormControl>
+      <FormControl fullWidth>
+        <InputLabel>Sort by:</InputLabel>
+          <Select
+            value={sort}
+            label="Sort by"
+            onChange={sortPosts}
+          >
+            <MenuItem value={"recent"}>Most Recent</MenuItem>
+            <MenuItem value={"old"}>Oldest</MenuItem>
+          </Select>
+      </FormControl>
+      {listOfPosts.filter((post) => post.title.toLowerCase().includes(query)).reverse().map((value, key) => {
         return (
           <Paper
             component="div"
