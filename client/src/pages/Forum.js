@@ -30,11 +30,16 @@ function Forum() {
   }, []);
 
   useEffect(() => {
+    console.log("check");
     if (filter === "week" ) {
-      setListOfPosts(allPosts.filter((post) => moment(post.createdAt).isAfter(moment().subtract(7, 'days'))));
+      setListOfPosts(listOfPosts.slice().filter((post) => moment(post.createdAt).isAfter(moment().subtract(7, 'days'))));
       //console.log(allPosts);
     } else if (filter === "month") {
-      setListOfPosts(allPosts.filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
+      if (sort == "recent") {
+        setListOfPosts(allPosts.slice().filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
+      } else {
+        setListOfPosts(allPosts.slice().reverse().filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
+      }
       //console.log(allPosts);
     } else {
       setListOfPosts(allPosts);
@@ -42,13 +47,7 @@ function Forum() {
   }, [filter])
 
   useEffect(() => {
-    if (sort == "recent") {
-      setListOfPosts(listOfPosts.reverse());
-      //console.log(listOfPosts[0])
-    } else if (sort == "old") {
-      setListOfPosts(listOfPosts.reverse());
-      //console.log("wth")
-    }
+    setListOfPosts(listOfPosts.slice().reverse());
   }, [sort]);
 
   const filterPosts = (event) => {
@@ -57,7 +56,7 @@ function Forum() {
   
   const sortPosts = (event) => {
     setSort(event.target.value);
-    console.log(sort)
+    //console.log(sort)
   }
 
   return (
