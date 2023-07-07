@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
@@ -34,12 +35,9 @@ function Assignments() {
     if (!authState.status) {
       navigate("/login");
     } else {
-      axios.get(`http://localhost:3001/assignments/${id}`).then((response) => {
-        setListOfAssignments(response.data);
-        // future dev testing
-        //
-        // https://TimeTrekker.onrender.com/assignments/${id}
-      });
+      axios.get(`${APICall}/assignments/${id}`).then((response) => {
+      setListOfAssignments(response.data);
+    });
     }
   }, []);
 
@@ -152,8 +150,7 @@ function Assignments() {
     if (option === "title") {
       let newTitle = prompt("Enter new title");
       axios
-        .put("http://localhost:3001/assignments/title", {
-          // https://TimeTrekker.onrender.com/assignments/title
+        .put(`${APICall}/assignments/title`, {
           title: newTitle,
           id: id,
         })
@@ -166,8 +163,7 @@ function Assignments() {
     } else if (option === "description") {
       let newDesc = prompt("Enter new description");
       axios
-        .put("http://localhost:3001/assignments/desc", {
-          // https://TimeTrekker.onrender.com/assignments/desc
+        .put(`${APICall}/assignments/desc`, {
           description: newDesc,
           id: id,
         })
@@ -180,8 +176,7 @@ function Assignments() {
     } else {
       let newDeadline = prompt("Enter new deadline (YYYY-MM-DD)");
       axios
-        .put("http://localhost:3001/assignments/deadline", {
-          // https://TimeTrekker.onrender.com/assignments/deadline
+        .put(`${APICall}/assignments/deadline`, {
           deadline: newDeadline,
           id: id,
         })
@@ -201,8 +196,7 @@ function Assignments() {
     );
     // change the completed status
     axios
-      .put("http://localhost:3001/assignments/completed", {
-        // https://TimeTrekker.onrender.com/assignments/completed
+      .put(`${APICall}/assignments/completed`, {
         id: id,
         completed: !assignment.completed,
       })
@@ -241,8 +235,7 @@ function Assignments() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3001/assignments/${id}`).then((response) => {
-      // https://TimeTrekker.onrender.com/assignments/${id}
+    axios.delete(`${APICall}/assignments/${id}`).then((response) => {
       setListOfAssignments(
         listOfAssignments.filter((val) => {
           return val.id !== id;

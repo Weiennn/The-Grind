@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import {
   TextField,
   Button,
@@ -27,13 +28,11 @@ function Post() {
 
   useEffect(() => {
     // Get post data from the posts route and set the post state to it
-    axios.get(`http://localhost:3001/posts/byId/${id}`).then((response) => {
-      // https://TimeTrekker.onrender.com/posts/byId/${id}
+    axios.get(`${APICall}/posts/byId/${id}`).then((response) => {
       setPostObject(response.data);
     });
     // Get comment data from the comments route and set the comment state to it
-    axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
-      // https://TimeTrekker.onrender.com/comments/${id}
+    axios.get(`${APICall}/comments/${id}`).then((response) => {
       setComments(response.data);
     });
   }, []);
@@ -49,8 +48,7 @@ function Post() {
     // Posting the comment into the comments route
     axios
       .post(
-        "http://localhost:3001/comments",
-        // https://TimeTrekker.onrender.com/comments
+        `${APICall}/comments`,
         { commentBody: newComment, PostId: id },
         {
           headers: {
@@ -80,8 +78,7 @@ function Post() {
   const deleteComment = (id) => {
     // Delete the comment from the comments route
     axios
-      .delete(`http://localhost:3001/comments/${id}`, {
-        // https://TimeTrekker.onrender.com/comments/${id}
+      .delete(`${APICall}/comments/${id}`, {
         headers: {
           // Obtain token from local storage
           accessToken: localStorage.getItem("accessToken"),

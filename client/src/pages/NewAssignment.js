@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../helper/AuthContext";
+import { APICall } from "../helper/APICall";
 import { useNavigate } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Switch from "@mui/material/Switch";
@@ -62,8 +63,7 @@ function NewAssignment(props) {
       data.deadline = null;
     }
     axios
-      .post("http://localhost:3001/assignments", {
-        // https://TimeTrekker.onrender.com/assignments
+      .post(`${APICall}/assignments`, {
         ...data,
         completed: false,
         UserId: id,
