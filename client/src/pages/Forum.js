@@ -27,7 +27,7 @@ function Forum() {
     if (!authState.status) {
       navigate("/login");
     } else {
-      axios.get("http://localhost:3001/posts").then((response) => {
+      axios.get(`${APICall}/posts`).then((response) => {
         // https://TimeTrekker.onrender.com/posts
         setListOfPosts(response.data);
       });
@@ -43,14 +43,12 @@ function Forum() {
     console.log("check");
     if (filter === "week" ) {
       setListOfPosts(listOfPosts.slice().filter((post) => moment(post.createdAt).isAfter(moment().subtract(7, 'days'))));
-      //console.log(allPosts);
     } else if (filter === "month") {
       if (sort == "recent") {
         setListOfPosts(allPosts.slice().filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
       } else {
         setListOfPosts(allPosts.slice().reverse().filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
       }
-      //console.log(allPosts);
     } else {
       setListOfPosts(allPosts);
     }

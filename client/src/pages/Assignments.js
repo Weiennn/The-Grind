@@ -43,7 +43,7 @@ function Assignments() {
 
   useEffect(() => {
     const listOfAssignments = axios.get(
-      `http://localhost:3001/assignments/${id}`
+      `${APICall}/assignments/${id}`
     );
     const formatAndSetAssignments = (lis) => {
       lis.forEach((assignment) => {
@@ -57,7 +57,6 @@ function Assignments() {
       setListOfAssignments(lis);
     };
 
-    // https://TimeTrekker.onrender.com/assignments/${id}
     if (filter === "all") {
       listOfAssignments.then((response) => {
         const filtered = response.data;
@@ -80,7 +79,7 @@ function Assignments() {
     } else {
       // By deadline
       const haveDeadline = axios
-        .get(`http://localhost:3001/assignments/${id}`)
+        .get(`${APICall}/assignments/${id}`)
         .then((response) => {
           const filtered = response.data.filter(
             (assignment) => assignment.deadline !== null && assignment.deadline !== "Invalid date"
@@ -258,9 +257,8 @@ function Assignments() {
 
   const handleResetRecurringClick = () => {
     axios
-      .put(`http://localhost:3001/assignments/resetRecurring/${id}`)
+      .put(`${APICall}/assignments/resetRecurring/${id}`)
       .then((response) => {
-        // https://TimeTrekker.onrender.com/assignments/resetRecurring
         setListOfAssignments(response.data);
       });
   };
