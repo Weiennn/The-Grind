@@ -5,7 +5,7 @@ import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -24,8 +24,8 @@ import StudyTimer from "./StudyTimer";
 import RestTimer from "./RestTimer";
 import Assignments from "./Assignments";
 import NewAssignment from "./NewAssignment";
+import Spotify from "./Spotify";
 import { AuthContext } from "../helper/AuthContext";
-import { APICall } from "../helper/APICall";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Direction, ToggleButton } from "@mui/material";
@@ -117,7 +117,8 @@ export default function PersistentDrawerLeft() {
     }
     // Check if user has a valid token
     axios
-      .get(`${APICall}/auth/auth`, {
+      .get("http://localhost:3001/auth/auth", {
+        // https://TimeTrekker.onrender.com/auth/auth
         headers: {
           accessToken: accessToken,
         },
@@ -241,7 +242,7 @@ export default function PersistentDrawerLeft() {
               color: theme.palette.primary.contrastText,
             }}
           >
-            <Box width="55%" >
+            <Box width="55%">
               <Typography variant="h4">{authState.username}</Typography>
             </Box>
             <IconButton
@@ -260,7 +261,7 @@ export default function PersistentDrawerLeft() {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <Box sx={{ display: "flex", flexDirection: "column", }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box>
               <ToggleButton
                 fullWidth
@@ -329,7 +330,6 @@ export default function PersistentDrawerLeft() {
                 <AddIcon color="secondary" />
               </ToggleButton>
             </Box>
-
             <Box>
               <ToggleButton
                 fullWidth
@@ -347,6 +347,23 @@ export default function PersistentDrawerLeft() {
                 <CreateIcon color="secondary" />
               </ToggleButton>
             </Box>
+            <Box>
+              <ToggleButton
+                fullWidth
+                onClick={() => {
+                  navigate(`/spotify`);
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="label"
+                  sx={{ mr: 1, color: theme.palette.secondary.main }}
+                >
+                  spotify
+                </Typography>
+                <MusicNoteIcon color="secondary" />
+              </ToggleButton>
+            </Box>
           </Box>
         </Drawer>
         <Main open={open}>
@@ -362,6 +379,7 @@ export default function PersistentDrawerLeft() {
             <Route path="/restTimer" element={<RestTimer />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/newAssignment" element={<NewAssignment />} />
+            <Route path="/spotify" element={<Spotify />} />
           </Routes>
         </Main>
       </AuthContext.Provider>
