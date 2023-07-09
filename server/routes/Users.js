@@ -17,6 +17,7 @@ router.post("/", async (req, res) => {
         Users.create({
             username: username,
             password: hash,
+            spotifyToken: null
         });
         res.json("SUCCESS");
     });
@@ -60,5 +61,6 @@ router.get('/logout', async (req, res) => {
 router.get('/auth', validateToken, (req, res) => {
     res.json(req.user);
 });
+
 
 module.exports = router;

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import SpotifyPlayer from "./SpotifyPlayer";
+import React, { useState, useEffect, useContext } from "react";
+import WebPlayback from "./WebPlayback";
 import SpotifyLogin from "./SpotifyLogin";
 import axios from "axios";
 import { APICall } from "../helper/APICall";
-
-
+import { AuthContext } from "../helper/AuthContext";
 
 
 export default function Spotify() {
   const [token, setToken] = useState("");
+  const { authState } = useContext(AuthContext);
+  const userId = authState.id;
 
-//   useEffect(() => {
-//     axios.get(`${APICall}/spotify/token`).then((response) => {
-//       setToken(response.data);
-//     });
-//   }, []);
+  useEffect(() => {
+    axios.get(`${APICall}/spotify/token/${userId}`).then((response) => {
+      setToken(response.data.token);
+    });
+  }, []);
 
   return (
-    <div>
-        { (token === "") ? (<SpotifyLogin />) : (<SpotifyPlayer token={token} />) }
-    </div>
-    );
+    <div>{token === "" ? <SpotifyLogin /> : <WebPlayback token={token} />}
+    {token}</div>
+  );
 }

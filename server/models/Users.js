@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        spotifyToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+            defaultValue: null,
         }
     })
 

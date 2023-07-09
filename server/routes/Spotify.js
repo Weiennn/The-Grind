@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { validateToken } = require("../middlewares/AuthMiddleware");
-const axios = require("axios");
 const cors = require("cors");
+const { Users } = require("../models");
 
 const spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 const spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -20,43 +20,37 @@ const generateRandomString = (length) => {
 
 router.use(cors());
 
-router.get("/", (req, res) => {
-  console.log("hello");
-});
 
 router.get("/spotifyLogin", (req, res) => {
   const scope =
     "streaming \
     user-read-email \
     user-read-private";
-
   const state = generateRandomString(16);
-
   const auth_query_parameters = new URLSearchParams({
     response_type: "code",
     client_id: spotify_client_id,
     scope: scope,
-    redirect_uri: "http://localhost:3001/spotify/callback",
+    redirect_uri: "http://localhost:3000/spotify",
     state: state,
   });
 
   const spotifyAuthorizeUrl =
     "https://accounts.spotify.com/authorize/?" +
-    auth_query_parameters.toString(); 
+    auth_query_parameters.toString();
 
-  console.log("login");
   // Redirect the client to the Spotify authorization URL
+  console.log("login");
   res.json({ url: spotifyAuthorizeUrl });
 });
 
 router.get("/callback", (req, res) => {
-  
   const code = req.query.code;
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: code,
-      redirect_uri: "http://localhost:3001/spotify/callback",
+      redirect_uri: "http://localhost:3000/spotify",
       grant_type: "authorization_code",
     },
     headers: {
@@ -69,27 +63,25 @@ router.get("/callback", (req, res) => {
     },
     json: true,
   };
-
-  axios
-    .post(authOptions.url, authOptions.form, {
-      headers: authOptions.headers,
-    })
-    .then((response) => {
-      const access_token = response.data.access_token;
-      // Send the access token back to the client-side application
-      res.json({ access_token });
-      console.log(response.data);
-    })
-    .catch((error) => {
-      // Handle the error
-      res.status(500).json({ error: "Failed to obtain access token" });
-    });
+  console.log("callback");
+  res.json(authOptions);
 });
 
-// router.get("/token", (req, res) => {
-//   res.json({
-//     access_token: access_token,
-//   });
-// });
+router.post("/token/:userId", async (req, res) => {
+    console.log("token");
+    console.log(req.body.access_token);
+    console.log(req.params.userId);
+    await Users.update(
+        { spotifyToken: req.body.access_token },
+        { where: { id: req.params.userId } }
+    );
+    res.json("SUCCESS");
+});
+
+router.get("/token/:userId", (req, res) => {
+    Users.findOne({ where: { id: req.params.userId } }).then((user) => {
+        res.json({ token: user.spotifyToken });
+    });
+});
 
 module.exports = router;
