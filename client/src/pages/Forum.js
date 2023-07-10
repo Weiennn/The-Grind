@@ -11,21 +11,36 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { APICall } from "../helper/APICall";
 import moment from "moment";
+import { useStytchSession } from "@stytch/react";
 
 function Forum() {
   const [listOfPosts, setListOfPosts] = useState([]);
-  const { authState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("recent");
   const [allPosts, setAllPosts] = useState([]);
   let navigate = useNavigate();
   let theme = useTheme();
+  const { session } = useStytchSession();
 
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
     if (!authState.status) {
       navigate("/login");
+    } else if (!session) {
+      if (authState.stay) {
+        localStorage.removeItem("accessToken");
+      } else {
+        sessionStorage.removeItem("accessToken");
+      }
+      // Set login status to be false as well as clear username and id
+      setAuthState({
+        username: "",
+        id: 0,
+        status: false,
+        stay: false,
+      });
     } else {
       axios.get(`${APICall}/posts`).then((response) => {
         // https://TimeTrekker.onrender.com/posts

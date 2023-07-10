@@ -35,6 +35,7 @@ import ForumIcon from "@mui/icons-material/Forum";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
+import { useStytch } from '@stytch/react';
 
 const drawerWidth = 240;
 
@@ -103,6 +104,8 @@ export default function PersistentDrawerLeft() {
     stay: false,
   });
 
+  const stytchClient = useStytch();
+
   // Runs when the page is being refreshed or loaded
   useEffect(() => {
     // Check if there is a token
@@ -145,14 +148,13 @@ export default function PersistentDrawerLeft() {
 
   // Function called when logging out
   const logout = () => {
+    stytchClient.session.revoke();
     // Remove accessToken
-    console.log(authState.stay);
     if (authState.stay) {
       localStorage.removeItem("accessToken");
     } else {
       sessionStorage.removeItem("accessToken");
     }
-    /*axios.get("http://localhost:3001/auth/logout").then((response) => {*/
       // Set login status to be false as well as clear username and id
       setAuthState({
         username: "",
@@ -160,7 +162,6 @@ export default function PersistentDrawerLeft() {
         status: false,
         stay: false,
       });
-    //})
   };
 
   return (

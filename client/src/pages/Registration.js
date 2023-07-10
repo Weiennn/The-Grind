@@ -16,6 +16,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useStytch } from '@stytch/react';
 
 function Copyright(props) {
   return (
@@ -35,17 +36,20 @@ function Copyright(props) {
 function Registration() {
   // Obtaining state containing user login details
   const { setAuthState } = useContext(AuthContext);
+  const stytchClient = useStytch();
 
   // initial values for the form
   const initialValues = {
     username: "",
+    email: "",
     password: "",
   };
 
   // Requirements for form input
   const validationSchema = Yup.object().shape({
-    username: Yup.string().min(3).max(15).required(),
-    password: Yup.string().min(4).max(20).required(),
+    username: Yup.string().min(3).max(20).required(),
+    email: Yup.string().email().required(),
+    password: Yup.string().min(14).matches(/[0-9]/, 'Password requires a number').matches(/[A-Z]/, 'Password requires an uppercase letter').required(),
   });
 
   let navigate = useNavigate();
@@ -54,6 +58,22 @@ function Registration() {
   const onSubmit = (data) => {
     // Post data to the route for users
     axios.post(`${APICall}/auth`, data).then(() => {
+      const { username, email, password } = data;
+      
+      stytchClient.passwords
+      .strengthCheck({ email, password })
+      .then((res) => {
+        console.log("Yay");
+      })
+      .catch((err) => {
+        console.log("Nay");
+      });
+
+      stytchClient.passwords.create({
+        email,
+        password,
+        session_duration_minutes: 43200,
+      })
       // Send data to the route for user login
       axios.post(`${APICall}/auth/login`, data).then((response) => {
         if (response.data.error) {
@@ -115,6 +135,21 @@ function Registration() {
                       id="inputNewPost"
                       label="Username"
                       autoComplete="username"
+                    />
+                  )}
+                </Field>
+              </Grid>
+              <Grid item xs={12}>
+                <ErrorMessage name="email" component="span" />
+                <Field name="email">
+                  {({ field }) => (
+                    <TextField
+                      {...field}
+                      required
+                      fullWidth
+                      id="inputNewPost"
+                      label="email"
+                      autoComplete="email"
                     />
                   )}
                 </Field>

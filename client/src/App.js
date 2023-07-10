@@ -4,8 +4,16 @@ import Navbar from "./pages/Navbar";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { BrowserRouter as Router } from "react-router-dom";
+import { StytchHeadlessClient } from "@stytch/vanilla-js/headless";
+import { StytchToken } from "./helper/StytchToken";
+import { StytchProvider } from "@stytch/react";
 
 function App() {
+
+  const stytchClient = new StytchHeadlessClient(
+    `${StytchToken}`
+  );
+
   const defaultTheme = createTheme({
     palette: {
       mode: "light",
@@ -24,7 +32,9 @@ function App() {
       <Router>
         <div className="App">
           <ThemeProvider theme={defaultTheme}>
-            <Navbar />
+            <StytchProvider stytch={stytchClient}>
+              <Navbar />
+            </StytchProvider>
           </ThemeProvider>
         </div>
       </Router>

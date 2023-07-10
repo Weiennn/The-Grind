@@ -22,18 +22,33 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import moment from "moment";
+import { useStytchSession } from "@stytch/react";
 
 function Assignments() {
   const [listOfAssignments, setListOfAssignments] = useState([]);
   const [filter, setFilter] = useState("all");
-  const { authState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
   const id = authState.id;
   const theme = useTheme();
   let navigate = useNavigate();
+  const { session } = useStytchSession();
 
   useEffect(() => {
     if (!authState.status) {
       navigate("/login");
+    } else if (!session) {
+      if (authState.stay) {
+        localStorage.removeItem("accessToken");
+      } else {
+        sessionStorage.removeItem("accessToken");
+      }
+      // Set login status to be false as well as clear username and id
+      setAuthState({
+        username: "",
+        id: 0,
+        status: false,
+        stay: false,
+      });
     } else {
       axios.get(`${APICall}/assignments/${id}`).then((response) => {
       setListOfAssignments(response.data);

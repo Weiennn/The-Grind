@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useStytch } from '@stytch/react';
 
 // Adds the copyright @website thing at the bottom
 function Copyright(props) {
@@ -45,6 +46,7 @@ function Login() {
   const [stay, setStay] = useState(false);
   // Obtaining state containing user login details
   const { setAuthState } = useContext(AuthContext);
+  const stytchClient = useStytch();
 
   let navigate = useNavigate();
 
@@ -57,6 +59,11 @@ function Login() {
       if (response.data.error) {
         alert(response.data.error);
       } else {
+        stytchClient.passwords.authenticate({
+          email: `${response.data.email}`,
+          password: password,
+          session_duration_minutes: 43200,
+        })
         // Set accessToken inside localStorage
         if (stay) {
           localStorage.setItem("accessToken", response.data.token);

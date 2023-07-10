@@ -15,9 +15,10 @@ import { Snackbar, IconButton } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import moment from "moment";
+import { useStytchSession } from "@stytch/react";
 
 function NewAssignment(props) {
-  const { authState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
   const id = authState.id;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -30,10 +31,24 @@ function NewAssignment(props) {
   const [recurringState, setRecurringState] = useState(false);
   const [deadlineLabel, setDeadlineLabel] = useState("Deadline");
   let navigate = useNavigate();
+  const { session } = useStytchSession();
 
   useEffect(() => {
     if (!authState.status) {
       navigate("/login");
+    } else if (!session) {
+      if (authState.stay) {
+        localStorage.removeItem("accessToken");
+      } else {
+        sessionStorage.removeItem("accessToken");
+      }
+      // Set login status to be false as well as clear username and id
+      setAuthState({
+        username: "",
+        id: 0,
+        status: false,
+        stay: false,
+      });
     }
   }, []);
 

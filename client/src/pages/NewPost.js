@@ -10,16 +10,31 @@ import { Box } from "@mui/material";
 import { Typography, Button, } from "@mui/material";
 import { TextField } from "formik-material-ui";
 import { Container } from "@mui/material";
+import { useStytchSession } from '@stytch/react';
 
 function NewPost() {
-  const { authState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
 
   let navigate = useNavigate();
   let theme = useTheme();
+  const { session } = useStytchSession();
 
   useEffect(() => {
     if (!authState.status) {
       navigate("/login");
+    } else if (!session) {
+      if (authState.stay) {
+        localStorage.removeItem("accessToken");
+      } else {
+        sessionStorage.removeItem("accessToken");
+      }
+      // Set login status to be false as well as clear username and id
+      setAuthState({
+        username: "",
+        id: 0,
+        status: false,
+        stay: false,
+      });
     }
   }, []);
 

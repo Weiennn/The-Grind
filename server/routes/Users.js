@@ -10,12 +10,13 @@ const { sign } = require('jsonwebtoken');
 // Create a user
 router.post("/", async (req, res) => {
     // Getting the username and password variables separately
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     // Hasing the password in the database
     bcrypt.hash(password, 10).then((hash) => {
         // Creating a user
         Users.create({
             username: username,
+            email: `${email}`,
             password: hash,
         });
         res.json("SUCCESS");
@@ -45,7 +46,7 @@ router.post('/login', async (req, res) => {
                 });*/
                 const accessToken = sign({ username: user.username, id: user.id }, "importantsecret");
                 // Return token, username and id to be used
-                res.json({ token: accessToken, username: user.username, id: user.id });
+                res.json({ token: accessToken, username: user.username, id: user.id, email: user.email });
             } 
         });
     }  

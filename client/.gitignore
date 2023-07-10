@@ -25,3 +25,5 @@ yarn-error.log*
 
 #db stuff
 ../server/config/config.json
+
+src/helper/StytchToken.js
