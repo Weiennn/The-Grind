@@ -80,8 +80,22 @@ router.post("/token/:userId", async (req, res) => {
 
 router.get("/token/:userId", (req, res) => {
     Users.findOne({ where: { id: req.params.userId } }).then((user) => {
+      if (user && user.spotifyToken !== null) {
         res.json({ token: user.spotifyToken });
+      } else {
+        res.json({ token: null });
+      }
     });
 });
+
+router.delete("/token/:userId", async (req, res) => {
+    await Users.update(
+        { spotifyToken: null },
+        { where: { id: req.params.userId } }
+    );
+    res.json("SUCCESS");
+});
+
+
 
 module.exports = router;

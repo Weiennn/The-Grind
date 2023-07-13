@@ -9,7 +9,6 @@ import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import { Typography, Button, } from "@mui/material";
 import { TextField } from "formik-material-ui";
-import { Container } from "@mui/material";
 
 function NewPost() {
   const { authState } = useContext(AuthContext);

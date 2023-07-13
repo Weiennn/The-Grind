@@ -18,10 +18,6 @@ import moment from "moment";
 
 function NewAssignment(props) {
   const { authState } = useContext(AuthContext);
-  const id = authState.id;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState(null);
   const [assignmentCreationMessage, setAssignmentCreationMessage] =
     useState("");
@@ -29,6 +25,10 @@ function NewAssignment(props) {
     useState(false);
   const [recurringState, setRecurringState] = useState(false);
   const [deadlineLabel, setDeadlineLabel] = useState("Deadline");
+  const id = authState.id;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const theme = useTheme();
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -95,111 +95,121 @@ function NewAssignment(props) {
           width: "100%",
           alignItems: "center",
           justifyContent: "space-between",
-          border: "5px solid",
-          borderColor: theme.palette.primary.main,
           p: 2,
         }}
       >
-        <Formik
-          initialValues={initialValues}
-          onSubmit={(values, { resetForm }) => {
-            onSubmit(values);
-            resetForm();
-            setSelectedDate(null);
-            setRecurringState(false);
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            border: "5px solid",
+            borderColor: theme.palette.primary.main,
+            p: 2,
           }}
-          validationSchema={validationSchema}
         >
-          <Form className="formContainer">
-            <Typography
-              variant="h4"
-              sx={{ mb: 2, color: theme.palette.primary.main }}
-            >
-              New Assignment
-            </Typography>
-            <Field
-              id="inputCreateAssignment"
-              name="title"
-              label="Title"
-              component={TextField}
-              fullWidth
-              variant="outlined"
-            />
-            <DatePicker
-              label={deadlineLabel}
-              value={selectedDate}
-              onChange={handleDateChange}
-              sx={{
-                mt: 2,
-                mb: 2,
-                color: theme.palette.primary.main,
-                width: "100%",
-                height: "100%",
-              }}
-              inputFormat="DD-MM-YYYY"
-              fullWidth
-              PopperProps={{ style: { width: "100%" } }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box>
-                <Typography
-                  variant="body3"
-                  sx={{ color: theme.palette.primary.main }}
-                >
-                  Recurring?
-                </Typography>
-                <Field name="recurring">
-                  {({ field }) => (
-                    <Switch
-                      onClick={(event) => {
-                        setRecurringState(event.target.checked);
-                      }}
-                      id="recurring"
-                      {...field}
-                      checked={field.value}
-                      sx={{ color: theme.palette.secondary.main }}
-                    />
-                  )}
-                </Field>
-              </Box>
-              {recurringState && (
-                <FormControl sx={{ minWidth: 120 }}>
-                  <InputLabel id="frequency" size="small">
-                    Frequency
-                  </InputLabel>
-                  <Field
-                    id="frequency"
-                    name="frequency"
-                    as={Select}
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    defaultValue={null}
-                  >
-                    <MenuItem value="None">None</MenuItem>
-                    <MenuItem value="Weekly">Weekly</MenuItem>
-                    <MenuItem value="Biweekly">Biweekly</MenuItem>
-                    <MenuItem value="Monthly">Monthly</MenuItem>
-                  </Field>
-                </FormControl>
-              )}
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                sx={{ ml: 2 }}
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values, { resetForm }) => {
+              onSubmit(values);
+              resetForm();
+              setSelectedDate(null);
+              setRecurringState(false);
+            }}
+            validationSchema={validationSchema}
+          >
+            <Form className="formContainer">
+              <Typography
+                variant="h4"
+                sx={{ mb: 2, color: theme.palette.primary.main }}
               >
-                Create Assignment
-              </Button>
-            </Box>
-          </Form>
-        </Formik>
+                New Assignment
+              </Typography>
+              <Field
+                id="inputCreateAssignment"
+                name="title"
+                label="Title"
+                component={TextField}
+                fullWidth
+                variant="outlined"
+              />
+              <DatePicker
+                label={deadlineLabel}
+                value={selectedDate}
+                onChange={handleDateChange}
+                sx={{
+                  mt: 2,
+                  mb: 2,
+                  color: theme.palette.primary.main,
+                  width: "100%",
+                  height: "100%",
+                }}
+                inputFormat="DD-MM-YYYY"
+                fullWidth
+                PopperProps={{ style: { width: "100%" } }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme.palette.primary.main }}
+                  >
+                    Recurring?
+                  </Typography>
+                  <Field name="recurring">
+                    {({ field }) => (
+                      <Switch
+                        onClick={(event) => {
+                          setRecurringState(event.target.checked);
+                        }}
+                        id="recurring"
+                        {...field}
+                        checked={field.value}
+                        sx={{ color: theme.palette.secondary.main }}
+                      />
+                    )}
+                  </Field>
+                </Box>
+                {recurringState && (
+                  <FormControl sx={{ minWidth: 120 }}>
+                    <InputLabel id="frequency" size="small">
+                      Frequency
+                    </InputLabel>
+                    <Field
+                      id="frequency"
+                      name="frequency"
+                      as={Select}
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      defaultValue={null}
+                    >
+                      <MenuItem value="None">None</MenuItem>
+                      <MenuItem value="Weekly">Weekly</MenuItem>
+                      <MenuItem value="Biweekly">Biweekly</MenuItem>
+                      <MenuItem value="Monthly">Monthly</MenuItem>
+                    </Field>
+                  </FormControl>
+                )}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  sx={{ ml: 2 }}
+                >
+                  Create Assignment
+                </Button>
+              </Box>
+            </Form>
+          </Formik>
+        </Box>
       </Box>
       <Snackbar
         open={showAssignmentCreationMessage}
@@ -215,6 +225,31 @@ function NewAssignment(props) {
           </IconButton>
         }
       />
+      <Box sx={{width: "75vw", mt: 2 }}>
+        <Typography>FAQs:</Typography>
+        <Typography>Q: What is a recurring assignment?</Typography>
+        <Typography>
+          A: A recurring assignment is an assignment that repeats itself. For
+          example, if you have a weekly assignment, you can set the frequency to
+          weekly and the assignment will repeat itself every week.
+        </Typography>
+        <Typography>Q: What is the frequency?</Typography>
+        <Typography>
+          A: The frequency is how often the assignment will repeat itself. For
+          example, if you have a weekly assignment, you can set the frequency to
+          weekly and the assignment will repeat itself every week.
+        </Typography>
+        <Typography>
+          Q: What is the difference between a deadline and a start date?
+        </Typography>
+        <Typography>
+          A: A deadline is the date that the assignment is due. A start date is
+          the date that the recurring assignment will start. For example, if you
+          have a weekly assignment that starts on 10/10/2021, the first
+          assignment will be due on 17/10/2021 and the second assignment will be
+          due on 24/17/2021.
+        </Typography>
+      </Box>
     </>
   );
 }

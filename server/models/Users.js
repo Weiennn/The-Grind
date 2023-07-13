@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             unique: true,
             defaultValue: null,
-        }
+        },
     })
 
     // Create association between Users and Assignments by adding userId to the Assignments table
