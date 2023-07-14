@@ -12,7 +12,13 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+        },
+        spotifyToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+            defaultValue: null,
+        },
     })
 
     // Create association between Users and Assignments by adding userId to the Assignments table

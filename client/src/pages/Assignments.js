@@ -5,14 +5,7 @@ import { AuthContext } from "../helper/AuthContext";
 import { APICall } from "../helper/APICall";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import {
-  Button,
-  Card,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, Divider, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkbox from "@mui/material/Checkbox";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -36,15 +29,13 @@ function Assignments() {
       navigate("/login");
     } else {
       axios.get(`${APICall}/assignments/${id}`).then((response) => {
-      setListOfAssignments(response.data);
-    });
+        setListOfAssignments(response.data);
+      });
     }
   }, []);
 
   useEffect(() => {
-    const listOfAssignments = axios.get(
-      `${APICall}/assignments/${id}`
-    );
+    const listOfAssignments = axios.get(`${APICall}/assignments/${id}`);
     const formatAndSetAssignments = (lis) => {
       lis.forEach((assignment) => {
         if (assignment.deadline) {
@@ -82,7 +73,9 @@ function Assignments() {
         .get(`${APICall}/assignments/${id}`)
         .then((response) => {
           const filtered = response.data.filter(
-            (assignment) => assignment.deadline !== null && assignment.deadline !== "Invalid date"
+            (assignment) =>
+              assignment.deadline !== null &&
+              assignment.deadline !== "Invalid date"
           );
           return filtered.sort((a, b) => {
             const deadlineA = moment(a.deadline, "YYYY.MM.DD");
@@ -100,22 +93,19 @@ function Assignments() {
         return filtered;
       });
 
-        Promise.all([haveDeadline, noDeadline]).then(
-            ([haveDeadlineData, noDeadlineData]) => {
-                const final = [...haveDeadlineData, ...noDeadlineData];
-                formatAndSetAssignments(final);
-            }
-        );
-        
+      Promise.all([haveDeadline, noDeadline]).then(
+        ([haveDeadlineData, noDeadlineData]) => {
+          const final = [...haveDeadlineData, ...noDeadlineData];
+          formatAndSetAssignments(final);
+        }
+      );
 
-    //   Promise.all([haveDeadline, noDeadline]).then(
-    //     ([haveDeadlineData, noDeadlineData]) => {
-    //       const final = [...haveDeadlineData, ...noDeadlineData];
-    //       formatAndSetAssignments(final);
-    //     }
-    //   );
-
-
+      //   Promise.all([haveDeadline, noDeadline]).then(
+      //     ([haveDeadlineData, noDeadlineData]) => {
+      //       const final = [...haveDeadlineData, ...noDeadlineData];
+      //       formatAndSetAssignments(final);
+      //     }
+      //   );
 
       //   haveDeadline.then((response) => {
       //     const filtered = response.data.sort((a, b) => {

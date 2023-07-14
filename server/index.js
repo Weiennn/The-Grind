@@ -30,6 +30,8 @@ const usersRouter = require('./routes/Users');
 app.use("/auth", usersRouter);
 const assignmentsRouter = require('./routes/Assignments');
 app.use("/assignments/", assignmentsRouter);
+const spotifyRouter = require('./routes/Spotify');
+app.use("/spotify/", spotifyRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'))

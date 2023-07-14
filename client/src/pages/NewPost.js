@@ -9,7 +9,6 @@ import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import { Typography, Button, } from "@mui/material";
 import { TextField } from "formik-material-ui";
-import { Container } from "@mui/material";
 
 function NewPost() {
   const { authState } = useContext(AuthContext);
@@ -92,6 +91,7 @@ function NewPost() {
             id="inputCreatePost"
             name="postText"
             label="Post"
+            multiline
             component={TextField}
             fullWidth
             variant="outlined"

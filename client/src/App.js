@@ -3,9 +3,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "./pages/Navbar";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes } from "react-router-dom";
+
 
 function App() {
+  
   const defaultTheme = createTheme({
     palette: {
       mode: "light",
