@@ -233,12 +233,6 @@ function NewAssignment(props) {
           example, if you have a weekly assignment, you can set the frequency to
           weekly and the assignment will repeat itself every week.
         </Typography>
-        <Typography>Q: What is the frequency?</Typography>
-        <Typography>
-          A: The frequency is how often the assignment will repeat itself. For
-          example, if you have a weekly assignment, you can set the frequency to
-          weekly and the assignment will repeat itself every week.
-        </Typography>
         <Typography>
           Q: What is the difference between a deadline and a start date?
         </Typography>
@@ -248,6 +242,14 @@ function NewAssignment(props) {
           have a weekly assignment that starts on 10/10/2021, the first
           assignment will be due on 17/10/2021 and the second assignment will be
           due on 24/17/2021.
+        </Typography>
+        <Typography>
+          Q: What happens if I want to edit the assignment?
+        </Typography>
+        <Typography>
+          A: You can edit the assignment by clicking on the field that you want
+          to edit. For example, if you want to edit the title, you can click on
+          the title field and edit the title.
         </Typography>
       </Box>
     </>

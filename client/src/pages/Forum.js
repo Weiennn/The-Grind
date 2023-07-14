@@ -7,7 +7,13 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { APICall } from "../helper/APICall";
 import moment from "moment";
@@ -41,18 +47,37 @@ function Forum() {
 
   useEffect(() => {
     console.log("check");
-    if (filter === "week" ) {
-      setListOfPosts(listOfPosts.slice().filter((post) => moment(post.createdAt).isAfter(moment().subtract(7, 'days'))));
+    if (filter === "week") {
+      setListOfPosts(
+        listOfPosts
+          .slice()
+          .filter((post) =>
+            moment(post.createdAt).isAfter(moment().subtract(7, "days"))
+          )
+      );
     } else if (filter === "month") {
-      if (sort == "recent") {
-        setListOfPosts(allPosts.slice().filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
+      if (sort === "recent") {
+        setListOfPosts(
+          allPosts
+            .slice()
+            .filter((post) =>
+              moment(post.createdAt).isAfter(moment().subtract(1, "months"))
+            )
+        );
       } else {
-        setListOfPosts(allPosts.slice().reverse().filter((post) => moment(post.createdAt).isAfter(moment().subtract(1, 'months'))));
+        setListOfPosts(
+          allPosts
+            .slice()
+            .reverse()
+            .filter((post) =>
+              moment(post.createdAt).isAfter(moment().subtract(1, "months"))
+            )
+        );
       }
     } else {
       setListOfPosts(allPosts);
     }
-  }, [filter])
+  }, [filter]);
 
   useEffect(() => {
     setListOfPosts(listOfPosts.slice().reverse());
@@ -60,12 +85,12 @@ function Forum() {
 
   const filterPosts = (event) => {
     setFilter(event.target.value);
-  }
-  
+  };
+
   const sortPosts = (event) => {
     setSort(event.target.value);
     //console.log(sort)
-  }
+  };
 
   return (
     <Stack
@@ -74,93 +99,105 @@ function Forum() {
       alignItems="center"
       spacing={6}
     >
-      <input type="text" placeholder="Search..." className="search" onChange={(event) => setQuery(event.target.value)}/>
+      <TextField
+        type="text"
+        label="Search posts..."
+        className="search"
+        onChange={(event) => setQuery(event.target.value)}
+      ></TextField>
+      {/* <input type="text" placeholder="Search..." className="search" onChange={(event) => setQuery(event.target.value)}/> */}
       <FormControl fullWidth>
         <InputLabel>Filter:</InputLabel>
-          <Select
-            value={filter}
-            label="Filter"
-            onChange={filterPosts}
-          >
-            <MenuItem value={"all"}>All</MenuItem>
-            <MenuItem value={"week"}>Past Week</MenuItem>
-            <MenuItem value={"month"}>Past Month</MenuItem>
-            <MenuItem value={"friends"}>Friends</MenuItem>
-          </Select>
+        <Select value={filter} label="Filter" onChange={filterPosts}>
+          <MenuItem value={"all"}>All</MenuItem>
+          <MenuItem value={"week"}>Past Week</MenuItem>
+          <MenuItem value={"month"}>Past Month</MenuItem>
+          <MenuItem value={"friends"}>Friends</MenuItem>
+        </Select>
       </FormControl>
       <FormControl fullWidth>
         <InputLabel>Sort by:</InputLabel>
-          <Select
-            value={sort}
-            label="Sort by"
-            onChange={sortPosts}
-          >
-            <MenuItem value={"recent"}>Most Recent</MenuItem>
-            <MenuItem value={"old"}>Oldest</MenuItem>
-          </Select>
+        <Select value={sort} label="Sort by" onChange={sortPosts}>
+          <MenuItem value={"recent"}>Most Recent</MenuItem>
+          <MenuItem value={"old"}>Oldest</MenuItem>
+        </Select>
       </FormControl>
-      {listOfPosts.filter((post) => post.title.toLowerCase().includes(query)).reverse().map((value, key) => {
-        return (
-          <Paper
-            component="div"
-            color="secondary"
-            className="post"
-            bordercolor="primary"
-            elevation={3}
-            onClick={() => {
-              navigate(`/post/${value.id}`);
-            }}
-            sx={{ minWidth: "40vw" }}
-          >
-            <Box
+      {listOfPosts
+        .filter((post) => post.title.toLowerCase().includes(query))
+        .reverse()
+        .map((value, key) => {
+          return (
+            <Paper
               component="div"
-              classname="postTitleContainer"
+              color="secondary"
+              className="post"
+              bordercolor="primary"
+              elevation={3}
+              onClick={() => {
+                navigate(`/post/${value.id}`);
+              }}
               sx={{
+                minWidth: "50vw",
                 display: "flex",
-                flexWrap: "wrap",
-                backgroundColor: theme.palette.primary.main,
-                color: "white",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                minHeight: "100px",
+                maxHeight: "fit-content", // Adjust the maximum height as needed
               }}
             >
-              <Typography
-                className="title"
-                variant="h5"
+              <Box
                 component="div"
-                sx={{ flexGrow: 1 }}
+                classname="postTitleContainer"
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                }}
               >
-                {value.title}
-              </Typography>
-            </Box>
-            <Typography
-              className="body"
-              variant="h5"
-              component="div"
-              sx={{ flexGrow: 1 }}
-            >
-              {value.postText}
-            </Typography>
-            <Box
-              component="div"
-              classname="postTitleContainer"
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                backgroundColor: theme.palette.primary.main,
-                color: "white",
-              }}
-            >
-              <Typography
-                className="title"
-                variant="h5"
+                <Typography
+                  className="title"
+                  variant="h5"
+                  component="div"
+                  sx={{ flexGrow: 1 }}
+                >
+                  {value.title}
+                </Typography>
+              </Box>
+              <Box sx={{display: "flex", alignContent: "center", justifyContent: "center", padding: 4}}>
+                <Typography
+                  className="body"
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    flexGrow: 1,
+                  }}
+                >
+                  {value.postText.slice(0, 200) + "..."}
+                </Typography>
+              </Box>
+              <Box
                 component="div"
-                sx={{ flexGrow: 1 }}
+                classname="postTitleContainer"
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                }}
               >
-                - {value.username}
-              </Typography>
-            </Box>
-          </Paper>
-        );
-      })}
+                <Typography
+                  className="title"
+                  variant="h5"
+                  component="div"
+                  sx={{ flexGrow: 1 }}
+                >
+                  - {value.username}
+                </Typography>
+              </Box>
+            </Paper>
+          );
+        })}
     </Stack>
   );
 }

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     // Creating a table in sequelize
     const Comments = sequelize.define("Comments", {
         commentBody: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         username: {

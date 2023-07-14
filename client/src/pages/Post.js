@@ -148,6 +148,7 @@ function Post() {
             label="Add Comment"
             variant="outlined"
             fullWidth
+            multiline
             value={newComment}
             onChange={(event) => setNewComment(event.target.value)}
             sx={{ mb: "10px",  }}
@@ -174,6 +175,7 @@ function Post() {
                   mb: key === comments.length - 1 ? 0 : "10px",
                   padding: "10px",
                   backgroundColor: theme.palette.background.paper,
+                  height: "fit-content",
                 }}
               >
                 <Typography variant="body1" sx={{ mb: "5px" }}>
@@ -201,41 +203,6 @@ function Post() {
           )}
         </Container>
       </Box>
-      {/* <div className="postPage">
-        <div className="leftSide">
-          <div className="post" id="individual">
-            <div className="title">{postObject.title}</div>
-            <div className="postText">{postObject.postText}</div>
-            <div className="footer">{postObject.username}</div>
-          </div>
-        </div>
-        <div className="rightSide">
-          <div className="addCommentContainer">
-            <input
-              type="text"
-              placeholder="Comment..."
-              value={newComment}
-              onChange={(event) => {
-                setNewComment(event.target.value);
-              }}
-            />
-            <button onClick={addComment}>Comment</button>
-          </div>
-          <div className="listOfComments">
-            {comments.map((comment, key) => {
-              return (
-                <div key={key} className="comment">
-                  {comment.commentBody}
-                  <label> Username: {comment.username} </label>
-                  {authState.username === comment.username && (
-                    <button onClick={() => deleteComment(comment.id)}>X</button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }

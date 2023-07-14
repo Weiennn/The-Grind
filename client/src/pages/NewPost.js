@@ -91,6 +91,7 @@ function NewPost() {
             id="inputCreatePost"
             name="postText"
             label="Post"
+            multiline
             component={TextField}
             fullWidth
             variant="outlined"
