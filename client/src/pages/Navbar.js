@@ -153,15 +153,13 @@ export default function PersistentDrawerLeft() {
     } else {
       sessionStorage.removeItem("accessToken");
     }
-    /*axios.get("http://localhost:3001/auth/logout").then((response) => {*/
-      // Set login status to be false as well as clear username and id
       setAuthState({
         username: "",
         id: 0,
         status: false,
         stay: false,
       });
-    //})
+      navigate("/login");
   };
 
   return (
