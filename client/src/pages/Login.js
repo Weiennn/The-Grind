@@ -45,6 +45,7 @@ function Login() {
   const [stay, setStay] = useState(false);
   // Obtaining state containing user login details
   const { setAuthState } = useContext(AuthContext);
+  const [error, setError] = useState("");
 
   let navigate = useNavigate();
 
@@ -55,7 +56,7 @@ function Login() {
     // Send data to the route for user login
     axios.post(`${APICall}/auth/login`, data).then((response) => {
       if (response.data.error) {
-        alert(response.data.error);
+        setError(response.data.error)
       } else {
         // Set accessToken inside localStorage
         if (stay) {
@@ -99,6 +100,16 @@ function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {error && (
+          <Typography
+            component="h5"
+            variant="subtitle1"
+            color="error"
+            sx={{ mt: 2 }}
+          >
+            {error}
+          </Typography>
+        )}
         <Box onSubmit={login} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -121,6 +132,7 @@ function Login() {
             name="password"
             label="Password"
             id="password"
+            data-testid="password-input"
             autoComplete="current-password"
             type="password"
             onChange={(event) => {
@@ -144,7 +156,7 @@ function Login() {
           </Button>
           <Grid container>
             <Grid item xs>
-              {/* TODO add a forgot password page */}
+              {/* TODO add a forget password page */}
             </Grid>
             <Grid item>
               <Link to="/registration" href="#" variant="body2">
