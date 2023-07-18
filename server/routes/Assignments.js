@@ -64,7 +64,6 @@ router.get("/:userId", async (req, res) => {
   const nonCompletedListOfAssignments = await Assignments.findAll({
     where: { completed: false, UserId: userId },
   });
-
   res.json(nonCompletedListOfAssignments);
 });
 
