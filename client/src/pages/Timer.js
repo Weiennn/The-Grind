@@ -113,7 +113,12 @@ const PomodoroTimer = () => {
         Pomodoro Timer
       </Typography>
       <Divider sx={{ width: "100%", mb: 2 }} />
-      <Typography variant="h2" align="center" sx={{ mb: 2 }}>
+      <Typography
+        variant="h2"
+        align="center"
+        sx={{ mb: 2 }}
+        data-testid="timer-time"
+      >
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}
       </Typography>
@@ -144,6 +149,7 @@ const PomodoroTimer = () => {
         <InputLabel id="timer-duration-label">Timer Duration</InputLabel>
         <Slider
           label="timer-duration-label"
+          data-testid="timer-duration"
           id="timer-duration"
           value={sliderDuration}
           min={1}
@@ -169,18 +175,3 @@ const PomodoroTimer = () => {
 
 export default PomodoroTimer;
 
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate } from "react-router-dom";
-
-// function Timer() {
-//   let navigate = useNavigate();
-
-//   return (
-//     <div>
-//       <button onClick={() => navigate("/studyTimer")}> Study </button>
-//       <button onClick={() => navigate("/restTimer")}> Rest </button>
-//     </div>
-//   )
-// }
-
-// export default Timer

@@ -144,7 +144,6 @@ function Assignments() {
           id: id,
         })
         .then((response) => {
-          console.log(response);
           const temp = [...listOfAssignments];
           temp[key] = { ...listOfAssignments[key], title: newTitle };
           setListOfAssignments(temp);
@@ -157,7 +156,6 @@ function Assignments() {
           id: id,
         })
         .then((response) => {
-          console.log(response);
           const temp = [...listOfAssignments];
           temp[key] = { ...listOfAssignments[key], description: newDesc };
           setListOfAssignments(temp);
@@ -170,7 +168,6 @@ function Assignments() {
           id: id,
         })
         .then((response) => {
-          console.log(response);
           const temp = [...listOfAssignments];
           temp[key] = { ...listOfAssignments[key], deadline: newDeadline };
           setListOfAssignments(temp);
@@ -260,6 +257,7 @@ function Assignments() {
         flexDirection: "column",
         width: "78vw",
       }}
+      data-testid="assignments-page"
     >
       <Box
         sx={{
@@ -279,6 +277,8 @@ function Assignments() {
           Assignments
         </Typography>
         <ToggleButton
+          value="add-assignment"
+          data-testid="add-assignment-button"
           onClick={() => {
             navigate(`/newAssignment`);
           }}
@@ -306,6 +306,7 @@ function Assignments() {
           <FilterListIcon />
         </ToggleButton>
         <ToggleButton
+          value="reset-recurring"
           onClick={handleResetRecurringClick}
           sx={{ ml: 2, color: theme.palette.secondary.main }}
         >
@@ -324,6 +325,7 @@ function Assignments() {
             sx={{ display: "flex", alignItems: "center" }}
           >
             <Checkbox
+              data-testid={value.id}
               onClick={() => handleCheckboxClick(value.id, key)}
               checked={value.completed}
             />
@@ -337,6 +339,7 @@ function Assignments() {
                   cursor: "pointer",
                 },
               }}
+              data-testid={`title-${key}`}
               onClick={() => {
                 edit("title", value.id, key);
               }}
@@ -388,6 +391,7 @@ function Assignments() {
             </Box>
             <DeleteIcon
               onClick={() => handleDelete(value.id)}
+              data-testid={`delete-${value.id}`}
               sx={{ cursor: "pointer", color: theme.palette.secondary.main }}
             />
           </Card>

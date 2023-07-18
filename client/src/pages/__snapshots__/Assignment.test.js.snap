@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Assignments component should be able to filter assignments by due date: assignmentPage 1`] = `Promise {}`;

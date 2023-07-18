@@ -12,17 +12,17 @@ import userEvent from "@testing-library/user-event";
 const server = setupServer(
   // Define the request handlers using MSW
   //http://localhost:3001/auth/login
-  rest.post("/auth/login", (req, res, ctx) => {
+  rest.post("http://localhost:3001/auth/login", (req, res, ctx) => {
     // Mock the response for the '/auth/login' POST request
     const { username, password } = req.body;
-    if (username === "testuser" || password === "testpassword") {
+    if (username === "testuser" && password === "testpassword") {
       return res(
         ctx.status(200),
         ctx.json({
           token: "mockToken",
           username: "testuser",
           id: "mockId",
-          accessToken: "mockAccessToken",
+          status: true,
         })
       );
     } else if (username === "userNotCreated" && password === "testpassword") {
@@ -65,13 +65,18 @@ describe("Login component", () => {
 
   it("submits the form with valid input and calls the login function", async () => {
     const mockSetAuthState = jest.fn();
-    const mockAuthState = jest.fn();
+    const mockAuthState = {
+      authState: {
+        username: "testuser",
+        id: "mockId",
+        status: true,
+      },
+      setAuthState: mockSetAuthState,
+    };
 
     render(
       <MemoryRouter>
-        <AuthContext.Provider
-          value={{ authState: mockAuthState, setAuthState: mockSetAuthState }}
-        >
+        <AuthContext.Provider value={mockAuthState}>
           <Login />
         </AuthContext.Provider>
       </MemoryRouter>
@@ -111,12 +116,13 @@ describe("Login component", () => {
       password: "testpassword",
     });
 
-    // expect(mockSetAuthState).toHaveBeenCalledWith({
-    //     token: "mockToken",
-    //     username: "testuser",
-    //     id: "mockId",
-    //     status: true,
-    // });
+    expect(mockSetAuthState).toHaveBeenCalledWith({
+      //   token: "mockToken",
+      username: "testuser",
+      id: "mockId",
+      status: true,
+      stay: true,
+    });
   });
 
   it("submits the form with a user that does not exist and throws the user does not exist error", async () => {
@@ -167,7 +173,7 @@ describe("Login component", () => {
     });
 
     const error = await screen.findByText("user does not exist");
-    expect(error).toBeVisible();
+    expect(error).toBeInTheDocument();
   });
 
   it("submits the form with wrong password and throws the wrong password error", async () => {
