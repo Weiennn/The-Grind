@@ -9,24 +9,19 @@ const { Assignments } = require("../models");
 // Get assignments related to a specific user
 router.get("/:userId", async (req, res) => {
   const userId = req.params.userId;
-  const currentDate = moment().format("YYYY.MM.DD");
+  const currentDate = moment();
   const listOfAssignments = await Assignments.findAll({
     where: { UserId: userId },
   });
   //set all the new deadlines depending on frequency
   listOfAssignments.forEach((assignment) => {
     if (assignment.deadline != null || assignment.frequency != "None") {
-      const tmp = moment(assignment.deadline, "YYYY.MM.DD").format(
-        "YYYY.MM.DD"
-      );
-      if (
-        assignment.frequency === "Weekly" &&
-        assignment.deadline < currentDate
-      ) {
-        while (assignment.deadline < currentDate) {
+      const tmp = moment(assignment.deadline);
+      if (assignment.frequency === "Weekly" && tmp < currentDate) {
+        while (tmp < currentDate) {
           Assignments.update(
             {
-              deadline: moment(assignment.deadline).add(1, "weeks"),
+              deadline: tmp.add(1, "weeks"),
               completed: false,
             },
             { where: { id: assignment.id } }
@@ -34,12 +29,12 @@ router.get("/:userId", async (req, res) => {
         }
       } else if (
         assignment.frequency === "Biweekly" &&
-        assignment.deadline < currentDate
+        tmp < currentDate
       ) {
-        while (assignment.deadline < currentDate) {
+        while (tmp < currentDate) {
           Assignments.update(
             {
-              deadline: moment(assignment.deadline).add(2, "weeks"),
+              deadline: tmp.add(2, "weeks"),
               completed: false,
             },
             { where: { id: assignment.id } }
@@ -47,12 +42,12 @@ router.get("/:userId", async (req, res) => {
         }
       } else if (
         assignment.frequency === "Monthly" &&
-        assignment.deadline < currentDate
+        tmp < currentDate
       ) {
-        while (assignment.deadline < currentDate) {
+        while (tmp < currentDate) {
           Assignments.update(
             {
-              deadline: moment(assignment.deadline).add(1, "months"),
+              deadline: tmp.add(1, "months"),
               completed: false,
             },
             { where: { id: assignment.id } }
