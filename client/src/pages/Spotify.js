@@ -135,7 +135,7 @@ export default function Spotify() {
           >
             <Button
               variant="contained"
-              // onClick={(onLoginClick)}
+              onClick={(onLoginClick)}
               color="secondary"
             >
               Login to Spotify

@@ -78,7 +78,6 @@ function Registration() {
   //TODO change icon
   return (
     <Container
-      component="registrationContainer"
       maxWidth="xs"
       style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}
     >
@@ -94,7 +93,7 @@ function Registration() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+        <Typography label="sign-up-text" component="h1" variant="h5" sx={{ mb: 2 }}>
           Sign up
         </Typography>
         <Formik
@@ -106,13 +105,12 @@ function Registration() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <ErrorMessage name="username" component="span" />
-                <Field name="username">
+                <Field name="username" label="Username">
                   {({ field }) => (
                     <TextField
                       {...field}
                       required
                       fullWidth
-                      id="inputNewPost"
                       label="Username"
                       autoComplete="username"
                     />
@@ -121,15 +119,15 @@ function Registration() {
               </Grid>
               <Grid item xs={12}>
                 <ErrorMessage name="password" component="span" />
-                <Field name="password">
+                <Field name="password" label="Password">
                   {({ field }) => (
                     <TextField
                       {...field}
                       required
                       fullWidth
                       type="password"
-                      id="inputNewPost"
                       label="Password"
+                      data-testid="password-input"
                       autoComplete="new-password"
                     />
                   )}
