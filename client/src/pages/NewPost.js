@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,6 @@ function NewPost() {
     postText: Yup.string().required("A text body is required"),
   });
 
-  // What happens when the submit button is clicked
   const onSubmit = (data) => {
     let accessToken;
     if (authState.stay) {

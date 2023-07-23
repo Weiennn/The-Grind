@@ -75,7 +75,6 @@ function Registration() {
     });
   };
 
-  //TODO change icon
   return (
     <Container
       maxWidth="xs"
@@ -93,7 +92,12 @@ function Registration() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography label="sign-up-text" component="h1" variant="h5" sx={{ mb: 2 }}>
+        <Typography
+          label="sign-up-text"
+          component="h1"
+          variant="h5"
+          sx={{ mb: 2 }}
+        >
           Sign up
         </Typography>
         <Formik

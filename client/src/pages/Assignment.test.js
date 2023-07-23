@@ -65,7 +65,6 @@ describe("Assignments component", () => {
     act(() => {
       AssignmentComponent();
     });
-    // Check if the component renders without any errors
     expect(screen.getByText("Assignments")).toBeInTheDocument();
     expect(await screen.findByText("assignment 1")).toBeInTheDocument();
     expect(await screen.findByText("assignment 7")).toBeInTheDocument();

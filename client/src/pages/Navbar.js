@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Button from "@mui/material/Button";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 import Forum from "./Forum";
 import NewPost from "./NewPost";
 import Post from "./Post";
@@ -28,7 +28,7 @@ import Spotify from "./Spotify";
 import { AuthContext } from "../helper/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Direction, ToggleButton } from "@mui/material";
+import { ToggleButton } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import TimerIcon from "@mui/icons-material/Timer";
 import ForumIcon from "@mui/icons-material/Forum";
@@ -118,7 +118,6 @@ export default function PersistentDrawerLeft() {
     // Check if user has a valid token
     axios
       .get("http://localhost:3001/auth/auth", {
-        // https://TimeTrekker.onrender.com/auth/auth
         headers: {
           accessToken: accessToken,
         },

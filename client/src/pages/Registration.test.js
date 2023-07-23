@@ -5,14 +5,16 @@ import Registration from "./Registration";
 import "@testing-library/jest-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+import { AuthContext } from "../helper/AuthContext";
+import axios from "axios";
 
 const server = setupServer(
   // Define the request handlers using MSW
-  rest.post("/auth", (req, res, ctx) => {
+  rest.post("http://localhost:3001/auth", (req, res, ctx) => {
     // Mock the response for the '/auth' POST request
-    return res.json(req.user);
+    return res.json("SUCCESS");
   }),
-  rest.post("/auth/login", (req, res, ctx) => {
+  rest.post("http://localhost:3001/auth/login", (req, res, ctx) => {
     // Mock the response for the '/auth/login' POST request
     return res(
       ctx.status(200),
@@ -20,25 +22,15 @@ const server = setupServer(
         token: "mockToken",
         username: "testuser",
         id: "mockId",
+        status: true,
       })
     );
   })
 );
 
-// const mockNavigate = jest.fn();
-
-// jest.mock("react-router-dom", () => ({
-//   ...jest.requireActual("react-router-dom"), // Keep all non-mocked functions
-//   useNavigate: mockNavigate, // Mock the useNavigate hook
-// }));
-
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
-
-jest.mock("axios", () => ({
-  post: jest.fn(),
-}));
 
 describe("Registration component", () => {
   it("renders the registration form with the correct inputs", () => {
@@ -72,13 +64,20 @@ describe("Registration component", () => {
   });
 
   // it("should call the onSubmit function when the submit button is clicked", async () => {
-  //   // Mock the dependencies
-  //   const mockSetAuthState = jest.fn();
-  //   const mockNavigate = jest.fn();
   //   // Render the component
+  //   const mockSetAuthState = jest.fn();
+  //   const mockAuthState = {
+  //     authState: {
+  //       username: "testuser",
+  //       id: "mockId",
+  //       status: true,
+  //     },
+  //     setAuthState: mockSetAuthState,
+  //   };
+
   //   render(
   //     <MemoryRouter>
-  //       <AuthContext.Provider value={{ setAuthState: mockSetAuthState }}>
+  //       <AuthContext.Provider value={{ mockAuthState }}>
   //         <Registration />
   //       </AuthContext.Provider>
   //     </MemoryRouter>
@@ -87,25 +86,21 @@ describe("Registration component", () => {
   //   // Simulate user input
   //   const usernameInput = screen.getByRole("textbox", { name: "Username" });
   //   const passwordInput = screen.getByTestId("password-input");
-
   //   const submitButton = screen.getByRole("button", { name: "Sign up" });
+  //   const registrationSpy = jest.spyOn(axios, "post")
 
   //   act(() => {
   //     fireEvent.change(usernameInput, { target: { value: "testuser" } });
   //     passwordInput.value = "testpassword";
   //     fireEvent.input(passwordInput);
-
   //     // Submit the form
   //     fireEvent.click(submitButton);
   //   });
 
-  //   // Wait for the asynchronous operations to complete
-
   //   // Assertions
-
-  //   expect(mockNavigate).toHaveBeenCalledWith("/");
-  //   expect(mockSetAuthState).toHaveBeenCalled();
+  //   expect(registrationSpy).toHaveBeenCalled();
   // });
+
   it("displays form validation errors when invalid input is provided", async () => {
     render(
       <MemoryRouter>

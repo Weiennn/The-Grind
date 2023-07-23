@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -9,14 +9,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Switch from "@mui/material/Switch";
 import Box from "@mui/material/Box";
 import { useTheme } from "@emotion/react";
-import { Typography, Button, FormControlLabel, Container } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import { TextField } from "formik-material-ui";
 import { Snackbar, IconButton } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import moment from "moment";
 
-function NewAssignment(props) {
+function NewAssignment() {
   const { authState } = useContext(AuthContext);
   const [selectedDate, setSelectedDate] = useState(null);
   const [assignmentCreationMessage, setAssignmentCreationMessage] =
@@ -231,7 +230,9 @@ function NewAssignment(props) {
         <Typography>
           A: A recurring assignment is an assignment that repeats itself. For
           example, if you have a weekly assignment, you can set the frequency to
-          weekly and the assignment will repeat itself every week.
+          weekly and the assignment will repeat itself every week. For example,
+          if you have a weekly assignment that starts on 10/10/2021, it will be re-added to your assignments page 
+          on 17/10/2021, 24/10/2021 so that you do not have to manually add in the assignment.
         </Typography>
         <Typography>
           Q: What is the difference between a deadline and a start date?

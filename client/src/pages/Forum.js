@@ -34,7 +34,6 @@ function Forum() {
       navigate("/login");
     } else {
       axios.get(`${APICall}/posts`).then((response) => {
-        // https://TimeTrekker.onrender.com/posts
         setListOfPosts(response.data);
       });
     }
@@ -89,7 +88,6 @@ function Forum() {
 
   const sortPosts = (event) => {
     setSort(event.target.value);
-    //console.log(sort)
   };
 
   return (
@@ -105,7 +103,6 @@ function Forum() {
         className="search"
         onChange={(event) => setQuery(event.target.value)}
       ></TextField>
-      {/* <input type="text" placeholder="Search..." className="search" onChange={(event) => setQuery(event.target.value)}/> */}
       <FormControl fullWidth>
         <InputLabel>Filter:</InputLabel>
         <Select value={filter} label="Filter" onChange={filterPosts}>

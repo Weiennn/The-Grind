@@ -10,7 +10,6 @@ describe("PersistentDrawerLeft", () => {
         <PersistentDrawerLeft />
       </MemoryRouter>
     );
-    // Assert that the component renders without throwing any errors
   });
 
 });

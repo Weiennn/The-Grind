@@ -11,7 +11,6 @@ import userEvent from "@testing-library/user-event";
 
 const server = setupServer(
   // Define the request handlers using MSW
-  //http://localhost:3001/auth/login
   rest.post("http://localhost:3001/auth/login", (req, res, ctx) => {
     // Mock the response for the '/auth/login' POST request
     const { username, password } = req.body;
@@ -52,8 +51,6 @@ describe("Login component", () => {
 
     const usernameInput = screen.getByRole("textbox", { name: "Username" });
     const passwordInput = screen.getByTestId("password-input");
-
-    // Check if the login form elements are rendered
     expect(usernameInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(screen.getByLabelText("Remember me")).toBeInTheDocument();
@@ -117,7 +114,6 @@ describe("Login component", () => {
     });
 
     expect(mockSetAuthState).toHaveBeenCalledWith({
-      //   token: "mockToken",
       username: "testuser",
       id: "mockId",
       status: true,
