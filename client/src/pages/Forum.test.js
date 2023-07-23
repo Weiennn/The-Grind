@@ -1,9 +1,9 @@
 import React from "react";
-import mockForumData from "mockData/mockForumData";
+import mockForumData from "../mockData/mockForumData";
 import Forum from "./Forum";
 import { rest } from 'msw';
 import { setupServer } from 'msw/node'
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { getByRole, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthContext } from "../helper/AuthContext";
 import "@testing-library/jest-dom";
@@ -66,11 +66,12 @@ describe("Forum component", () => {
         act(() => {
             ForumComponent();
         })
-        const searchFilter = screen.getByTestId("search")
+        const searchFilter = screen.getByRole("textbox", { name: "searching" });
+        /*const searchFilter = screen.getByTestId("search")
         expect(searchFilter).toBeInTheDocument();
         act(() => {
             fireEvent.change(searchFilter, {target: { value: '7' }})
-        })
+        })*/
         expect(await screen.findByText("forum 7")).toBeInTheDocument();
         expect(await screen.findByText("this is forum 7")).toBeInTheDocument();
         expect(await screen.findByText("Gunz554")).toBeInTheDocument();
@@ -80,11 +81,17 @@ describe("Forum component", () => {
         act(() => {
             ForumComponent();
         });
-        const allFilter = screen.getByTestId("filter");
+        /*const allFilter = screen.getByTestId("filter");
         expect(allFilter).toBeInTheDocument();
         act(() => {
-            fireEvent.change(allFilter, { target: { value: "all" } })
-        })
+            //fireEvent.change(allFilter, { target: { value: "all" } })
+            fireEvent.mouseDown(getByRole('button'))
+        })*/
+        screen.debug();
+        const allFilter = screen.getByRole("button", { name: "filter" });
+        fireEvent.mouseDown(allFilter);
+        const option = await screen.findByRole("option", { name: "All" });
+        fireEvent.click(option);
         // Check if the component renders without any errors
         expect(screen.getByText("Filter:")).toBeInTheDocument();
         expect(screen.getByText("Sort by:")).toBeInTheDocument();

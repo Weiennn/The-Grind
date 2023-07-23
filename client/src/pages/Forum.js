@@ -104,13 +104,14 @@ function Forum() {
         label="Search posts..."
         className="search"
         data-testid="search"
+        name="searching"
         onChange={(event) => setQuery(event.target.value)}
       ></TextField>
       {/* <input type="text" placeholder="Search..." className="search" onChange={(event) => setQuery(event.target.value)}/> */}
       <FormControl fullWidth>
         <InputLabel>Filter:</InputLabel>
-        <Select data-testid="filter" value={filter} label="Filter" onChange={filterPosts}>
-          <MenuItem value={"all"}>All</MenuItem>
+        <Select name="filter" data-testid="filter" value={filter} label="Filter" onChange={filterPosts}>
+          <MenuItem data-testid="all" value={"all"}>All</MenuItem>
           <MenuItem value={"week"}>Past Week</MenuItem>
           <MenuItem value={"month"}>Past Month</MenuItem>
           <MenuItem value={"friends"}>Friends</MenuItem>
