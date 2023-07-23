@@ -103,12 +103,13 @@ function Forum() {
         type="text"
         label="Search posts..."
         className="search"
+        data-testid="search"
         onChange={(event) => setQuery(event.target.value)}
       ></TextField>
       {/* <input type="text" placeholder="Search..." className="search" onChange={(event) => setQuery(event.target.value)}/> */}
       <FormControl fullWidth>
         <InputLabel>Filter:</InputLabel>
-        <Select value={filter} label="Filter" onChange={filterPosts}>
+        <Select data-testid="filter" value={filter} label="Filter" onChange={filterPosts}>
           <MenuItem value={"all"}>All</MenuItem>
           <MenuItem value={"week"}>Past Week</MenuItem>
           <MenuItem value={"month"}>Past Month</MenuItem>
@@ -117,7 +118,7 @@ function Forum() {
       </FormControl>
       <FormControl fullWidth>
         <InputLabel>Sort by:</InputLabel>
-        <Select value={sort} label="Sort by" onChange={sortPosts}>
+        <Select data-testid="sort" value={sort} label="Sort by" onChange={sortPosts}>
           <MenuItem value={"recent"}>Most Recent</MenuItem>
           <MenuItem value={"old"}>Oldest</MenuItem>
         </Select>
@@ -131,6 +132,7 @@ function Forum() {
               component="div"
               color="secondary"
               className="post"
+              data-testid={`post-${value.id}`}
               bordercolor="primary"
               elevation={3}
               onClick={() => {
@@ -148,6 +150,7 @@ function Forum() {
               <Box
                 component="div"
                 classname="postTitleContainer"
+                data-testid="title"
                 sx={{
                   display: "flex",
                   flexWrap: "wrap",
@@ -164,7 +167,7 @@ function Forum() {
                   {value.title}
                 </Typography>
               </Box>
-              <Box sx={{display: "flex", alignContent: "center", justifyContent: "center", padding: 4}}>
+              <Box data-testid="body" sx={{display: "flex", alignContent: "center", justifyContent: "center", padding: 4}}>
                 <Typography
                   className="body"
                   variant="h5"
@@ -179,6 +182,7 @@ function Forum() {
               <Box
                 component="div"
                 classname="postTitleContainer"
+                data-testid="username"
                 sx={{
                   display: "flex",
                   flexWrap: "wrap",

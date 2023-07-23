@@ -1,0 +1,68 @@
+const mockForumData = [
+    {
+        id: 1,
+        title: "forum 1",
+        postText: "this is forum 1",
+        username: "MeowMeow",
+        createdAt: "2023-06-18T04:57:36.000Z",
+        updatedAt: "2023-06-18T04:57:36.000Z",
+    },
+    {
+        id: 2,
+        title: "forum 2",
+        postText: "this is forum 2",
+        username: "MeowMeow",
+        createdAt: "2023-06-21T04:57:36.000Z",
+        updatedAt: "2023-06-21T04:57:36.000Z",
+    },
+    {
+        id: 3,
+        title: "forum 3",
+        postText: "this is forum 3",
+        username: "MeowMeow",
+        createdAt: "2023-06-28T04:57:39.000Z",
+        updatedAt: "2023-06-28T04:57:39.000Z",
+    },
+    {
+        id: 4,
+        title: "forum 4",
+        postText: "this is forum 4",
+        username: "Dog78",
+        createdAt: "2023-07-10T04:57:36.000Z",
+        updatedAt: "2023-07-10T04:57:36.000Z",
+    },
+    {
+        id: 5,
+        title: "forum 5",
+        postText: "this is forum 5",
+        username: "Dog78",
+        createdAt: "2023-07-11T04:57:36.000Z",
+        updatedAt: "2023-07-11T04:57:36.000Z",
+    },
+    {
+        id: 6,
+        title: "forum 6",
+        postText: "this is forum 6",
+        username: "Gunz554",
+        createdAt: "2023-07-14T04:57:36.000Z",
+        updatedAt: "2023-07-14T04:57:36.000Z",
+    },
+    {
+        id: 7,
+        title: "forum 7",
+        postText: "this is forum 7",
+        username: "Gunz554",
+        createdAt: "2023-07-18T04:57:36.000Z",
+        updatedAt: "2023-07-18T04:57:36.000Z",
+    },
+    {
+        id: 8,
+        title: "forum 8",
+        postText: "this is forum 8",
+        username: "Gunz554",
+        createdAt: "2023-07-21T04:57:36.000Z",
+        updatedAt: "2023-07-21T04:57:36.000Z",
+    },
+];
+
+export default mockForumData;
